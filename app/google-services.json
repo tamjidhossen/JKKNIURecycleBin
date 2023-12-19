@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "982196246947",
+    "project_id": "jkkniurecyclebin",
+    "storage_bucket": "jkkniurecyclebin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982196246947:android:c5173cbfc6e700cc112216",
+        "android_client_info": {
+          "package_name": "com.example.recyclebin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7LVNsYavaHU_JRAAVJztLA6USSxfgM24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

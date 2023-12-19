@@ -4,23 +4,39 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.recyclebin.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.Firebase;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    //Firebase Auth for auth related tasks
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super. onCreate(savedInstanceState);
         //activity_main.xml = ActivityMainBinding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        //get instance of firebase auth for Auth related tasks
+        firebaseAuth = FirebaseAuth.getInstance();
+        //check if user is logged in or not
+        if (firebaseAuth.getCurrentUser() == null){
+            //user is not logged in, move to LoginOptionsActivity
+            startLoginOptions();
+        }
+
+        // By default (When App Opens) show Home
         showHomeFragment();
 
         //handle bottomNv item clicks to navigate between fragments
@@ -92,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "AccountFragment");
         fragmentTransaction.commit();
     }
+
+
+    private void startLoginOptions() {
+        startActivity(new Intent(this, LoginOptionsActivity.class));
+    }
+
 }
 
 
@@ -105,3 +127,12 @@ public class MainActivity extends AppCompatActivity {
 * 7) Fragment Navigation
 * 8) Create Login Options Activity
 * 9) Add Login Options e.g. Google, Phone, Email*/
+
+/*Steps - 2
+ * 1) Enable Authentication Methods (Email) on Firebase
+ * 2) Add Permission Internet in Android Manifest
+ * 3) Create Login Register Activities
+ * 4) Login UI
+ * 5) Login Coding
+ * 6) Register UI
+ * 7) Register Coding*/

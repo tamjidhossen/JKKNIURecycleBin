@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginOptionsActivity"
-    android:background="#0d1524">
+    android:background="@color/Navy">
 
     <!--ImageButton: Close this activity-->
     <ImageButton
@@ -36,6 +36,19 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"/>
 
+            <!--Material Button: Opens Register-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginEmailBtn"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Continue With Email"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                app:cornerRadius="8dp"
+                android:minHeight="@dimen/m_button_height"
+                app:icon="@drawable/ic_email_white"
+                app:iconSize="24dp"/>
         </LinearLayout>
 
     </ScrollView>

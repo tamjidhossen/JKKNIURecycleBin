@@ -11,4 +11,11 @@ public class Utils {
     public static void toast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
+    /** A Function to get current timestamp
+     @return Returns the current timestamp as long datatype
+     */
+    public static long getTimestamp(){
+        return System.currentTimeMillis();
+    }
 }

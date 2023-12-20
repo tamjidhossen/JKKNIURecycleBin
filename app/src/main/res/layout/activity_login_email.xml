@@ -48,7 +48,7 @@
     <ImageView
         android:id="@+id/LoginPageLogo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:padding="50dp"
         android:src="@drawable/logo"
         android:layout_gravity="center_horizontal"
@@ -58,8 +58,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_alignEnd="@+id/LoginPageLogo"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LoginPageLogo"
         android:layout_alignParentBottom="true">
 
 
@@ -85,8 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Login"
-                    android:textStyle="bold"
+                    android:text="Sign In"
                     android:textColor="@color/Navy"
                     android:textSize="30sp"
                     android:layout_marginTop="10dp"
@@ -148,6 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
+                    android:textAllCaps="false"
                     android:layout_below="@+id/passwordTil"
                     android:minHeight="@dimen/m_button_height"
                     android:backgroundTint="@color/Navy"/>

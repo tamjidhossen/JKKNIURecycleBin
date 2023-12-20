@@ -81,6 +81,9 @@ public class LoginEmailActivity extends AppCompatActivity {
         email = binding.emailEt.getText().toString().trim();
         password = binding.passwordEt.getText().toString();
 
+        Log.d(TAG, "validateData: email: "+email);
+        Log.d(TAG, "validateData: password: "+password);
+
         // if email pattern invalid
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.emailEt.setError("Invalid Email");

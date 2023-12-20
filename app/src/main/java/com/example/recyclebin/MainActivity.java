@@ -13,6 +13,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.Firebase;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.internal.Util;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,16 +52,40 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 } else if(itemId == R.id.menu_chats) {
                     //Chats item clicked, show fragment
-                    showChatsFragment();
-                    return true;
+                    if(firebaseAuth.getCurrentUser() == null) {
+                        Utils.toast(MainActivity.this, "Login Required");
+                        startLoginOptions();
+
+                        return false;
+                    } else {
+                        showChatsFragment();
+                        return true;
+                    }
+
                 } else if(itemId == R.id.menu_my_ads) {
                     //My Ads item clicked, show fragment
-                    showMyAdsFragment();
-                    return true;
+                    if(firebaseAuth.getCurrentUser() == null) {
+                        Utils.toast(MainActivity.this, "Login Required");
+                        startLoginOptions();
+
+                        return false;
+                    } else {
+                        showMyAdsFragment();
+                        return true;
+                    }
+
                 } else if(itemId == R.id.menu_account) {
                     //Account item clicked, show fragment
-                    showAccountFragment();
-                    return true;
+                    if(firebaseAuth.getCurrentUser() == null) {
+                        Utils.toast(MainActivity.this, "Login Required");
+                        startLoginOptions();
+
+                        return false;
+                    } else {
+                        showAccountFragment();
+                        return true;
+                    }
+
                 } else {
                     return false;
                 }

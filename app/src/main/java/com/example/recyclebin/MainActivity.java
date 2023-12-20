@@ -133,6 +133,6 @@ public class MainActivity extends AppCompatActivity {
  * 2) Add Permission Internet in Android Manifest
  * 3) Create Login Register Activities
  * 4) Login UI
- * 5) Login Coding
+ * 5) Code Login Logic
  * 6) Register UI
- * 7) Register Coding*/
+ * 7) Code Register Logic*/

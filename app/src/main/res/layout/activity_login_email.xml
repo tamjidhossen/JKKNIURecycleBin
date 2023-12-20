@@ -20,7 +20,7 @@
             android:src="@drawable/ic_back"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:padding="10dp" />
+            android:padding="15dp" />
 
         <!--TextView: Toolbar Title-->
         <TextView
@@ -104,7 +104,8 @@
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     app:startIconDrawable="@drawable/ic_email_white"
-                    android:hint="Email">
+                    android:hint="Email"
+                    android:textColorHint="@color/colorDarkGray01">
 
                     <EditText
                         android:id="@+id/emailEt"
@@ -126,6 +127,7 @@
                     android:layout_below="@+id/emailTil"
                     app:boxCornerRadiusBottomEnd="8dp"
                     android:hint="Password"
+                    android:textColorHint="@color/colorDarkGray01"
                     app:passwordToggleEnabled="true"
                     app:startIconDrawable="@drawable/ic_lock_white">
 

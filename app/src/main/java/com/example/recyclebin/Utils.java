@@ -1,7 +1,11 @@
 package com.example.recyclebin;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 /*A class that will contain static functions, constants, variables that we will be used in whole application*/
 public class Utils {
@@ -17,5 +21,15 @@ public class Utils {
      */
     public static long getTimestamp(){
         return System.currentTimeMillis();
+    }
+
+    /**
+     @param timestamp the timestamp of type Long that we need to format to dd/MM/yyyy
+     @return timestamp formatted to date dd/MM/yyyy*/
+    public static String formatTimestampDate(Long timestamp){
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(timestamp);
+        String date = DateFormat.format("dd/MM/yyyy", calendar).toString();
+        return date;
     }
 }

@@ -161,3 +161,13 @@ public class MainActivity extends AppCompatActivity {
  * 5) Code Login Logic
  * 6) Register UI
  * 7) Code Register Logic*/
+
+/*Steps - 3
+* 01) Profile UI (fragment_account.xml)
+* 02) Add Glide Library for image processing
+* 03) Profile (AccountFragment.java)
+* 04) Create the Activity ProfileEditActivity
+* 05) Edit Profile UI (activity_profile.xml)
+* 06) Edit Profile Coding (ProfileEditActivity.java)
+* 07) Setup Firebase Storage. Rules: Every one can read but only signed in users can write
+* 08) Test*/

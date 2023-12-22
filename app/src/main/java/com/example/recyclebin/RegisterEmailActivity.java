@@ -122,19 +122,18 @@ public class RegisterEmailActivity extends AppCompatActivity {
 
     private void updateUserInfo() {
 
-        long timestamp = Utils.getTimestamp();
         String registerUserEmail = firebaseAuth.getCurrentUser().getEmail();
         String registerUserUid = firebaseAuth.getUid();
 
+        // initializes db with these fields
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", "");
-        hashMap.put("phoneCode", "");
         hashMap.put ("phoneNumber", "");
+        hashMap.put ("dept", "");
+        hashMap.put ("session", "");
         hashMap.put("profileImageUrl", "");
-        hashMap. put("dob", "");
         hashMap.put("userType", "Email");
         hashMap.put("typingTo", "");
-        hashMap.put ("timestamp", timestamp);
         hashMap.put("onlineStatus", true);
         hashMap.put("email", registerUserEmail);
         hashMap.put("uid", registerUserUid);

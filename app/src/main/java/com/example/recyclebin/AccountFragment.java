@@ -86,7 +86,7 @@ public class AccountFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //get user info, spelling should be same in firebase realtime database
 //                        String dob = ""+ snapshot.child("dob"). getValue();
-//                        String email = ""+ snapshot.child("email").getValue();
+                        String email = ""+ snapshot.child("email").getValue();
                         String name = ""+ snapshot.child("name").getValue();
                         String dept = ""+ snapshot.child("dept").getValue();
                         String session = ""+ snapshot.child("session").getValue();
@@ -108,7 +108,7 @@ public class AccountFragment extends Fragment {
 //                        String formattedDate = Utils.formatTimestampDate(Long.parseLong(timestamp));
 
                         //set data to UI
-//                        binding.emailTv.setText(email);
+                        binding.emailTv.setText(email);
                         binding.nameTv.setText(name);
                         binding.deptTv.setText(dept);
                         binding.sessionTv.setText(session);

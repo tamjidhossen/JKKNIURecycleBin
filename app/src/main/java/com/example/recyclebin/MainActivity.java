@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.recyclebin.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
@@ -89,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     return false;
                 }
+            }
+        });
+
+        //handle sellFab click, start AdCreateActivity
+        binding.sellFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
             }
         });
     }

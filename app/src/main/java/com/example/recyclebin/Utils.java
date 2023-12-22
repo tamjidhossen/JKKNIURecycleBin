@@ -9,6 +9,29 @@ import java.util.Locale;
 
 /*A class that will contain static functions, constants, variables that we will be used in whole application*/
 public class Utils {
+
+    public static final String AD_STATUS_AVAILABLE = "AVAILABLE";
+    public static final String AD_STATUS_SOLD = "SOLD";
+
+    //Categories array of the Ads
+    public static final String[] categories = {
+            "Mobiles",
+            "Computer/Laptop",
+            "Electronics & Home Appliances",
+            "Vehicles",
+            "Furniture & Home Decor",
+            "Fashion & Beauty",
+            "Books",
+            "Sports",
+            "Animals",
+            "Businesses",
+            "Agriculture"
+    };
+
+    //Conditions array of the Add
+    public static final String[] conditions = {"New", "Used", "Refurbished"};
+
+
     /** A Function to show Toast
      @param context the context of activity/fragment from where this function will be called
      @param message the message to be shown in the Toast */

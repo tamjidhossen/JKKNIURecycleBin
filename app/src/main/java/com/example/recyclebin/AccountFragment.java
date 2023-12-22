@@ -85,53 +85,57 @@ public class AccountFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //get user info, spelling should be same in firebase realtime database
-                        String dob = ""+ snapshot.child("dob"). getValue();
-                        String email = ""+ snapshot.child("email").getValue();
+//                        String dob = ""+ snapshot.child("dob"). getValue();
+//                        String email = ""+ snapshot.child("email").getValue();
                         String name = ""+ snapshot.child("name").getValue();
-                        String phoneCode = ""+ snapshot.child("phoneCode").getValue();
+                        String dept = ""+ snapshot.child("dept").getValue();
+                        String session = ""+ snapshot.child("session").getValue();
+//                        String phoneCode = ""+ snapshot.child("phoneCode").getValue();
                         String phoneNumber = ""+ snapshot.child("phoneNumber") .getValue();
                         String profileImageUrl = ""+ snapshot.child("profileImageUrl").getValue();
-                        String timestamp = ""+ snapshot.child("timestamp"). getValue();
-                        String userType = ""+ snapshot.child("userType").getValue();
+//                        String timestamp = ""+ snapshot.child("timestamp"). getValue();
+//                        String userType = ""+ snapshot.child("userType").getValue();
 
                         //concatenate phone code and phone number to make full phone number
-                        String phone = phoneCode + phoneNumber;
+//                        String phone = phoneCode + phoneNumber;
 
                         //to avoid null or format exceptions
-                        if (timestamp.equals("null")){
-                            timestamp = "0";
-                        }
+//                        if (timestamp.equals("null")){
+//                            timestamp = "0";
+//                        }
 
                         //format timestamp to dd/MM/yyyy
-                        String formattedDate = Utils.formatTimestampDate(Long.parseLong(timestamp));
+//                        String formattedDate = Utils.formatTimestampDate(Long.parseLong(timestamp));
 
                         //set data to UI
-                        binding.emailTv.setText(email);
+//                        binding.emailTv.setText(email);
                         binding.nameTv.setText(name);
-                        binding.dobTv.setText(dob);
-                        binding.phoneTv.setText(phone);
-                        binding.memberSinceTv.setText(formattedDate);
+                        binding.deptTv.setText(dept);
+                        binding.sessionTv.setText(session);
+//                        binding.dobTv.setText(dob);
+                        binding.phoneTv.setText(phoneNumber);
+//                        binding.memberSinceTv.setText(formattedDate);
 
 
                         //check user type i.e. Email/Phone/Google In case of Phone & Google account is already verified but in case of Email account user have to verify
                         //Haven't implemented anything but Email
                         //Google, phone is for future changes
-
-                        if (userType.equals("Email")){
-                        //userType is Email, have to check if verified or not
-                            boolean isVerified = firebaseAuth.getCurrentUser().isEmailVerified();
-                            if (isVerified) {
-                                //Verified
-                                binding.verificationTv.setText("Verified");
-                            } else {
-                                //Not verified
-                                binding.verificationTv.setText("Not Verified");
-                            }
-                        }
-                        else {
-                            //userType is Google or Phone, no need to check if verified or not as it is already verified
+                        boolean isVerified = firebaseAuth.getCurrentUser().isEmailVerified();
+                        if (isVerified) {
+                            //Verified
                             binding.verificationTv.setText("Verified");
+                        } else {
+                            //Not verified
+                            binding.verificationTv.setText("Not Verified");
                         }
+//                        if (userType.equals("Email")){
+//                        //userType is Email, have to check if verified or not
+//
+//                        }
+//                        else {
+//                            //userType is Google or Phone, no need to check if verified or not as it is already verified
+//                            binding.verificationTv.setText("Verified");
+//                        }
 
                         try {
                             // set profile image to profileIV

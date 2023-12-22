@@ -52,7 +52,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private Uri imageUri = null;
-    private String myUserType = "";
+//    private String myUserType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +96,18 @@ public class ProfileEditActivity extends AppCompatActivity {
     }
 
     private String name = "";
-    private String dob = "";
-    private String email = "";
-    private String phoneCode = "";
+    private String dept = "";
+    private String session = "";
+//    private String dob = "";
+//    private String email = "";
+//    private String phoneCode = "";
     private String phoneNumber = "";
     private void validateData(){
         //input data
         name = binding.nameEt.getText().toString().trim();
-        dob = binding.dobEt.getText(). toString().trim();
+        dept = binding.deptEt.getText().toString().trim();
+        session = binding.sessionEt.getText().toString().trim();
+//        dob = binding.dobEt.getText(). toString().trim();
 //        email = binding.emailEt.getText(). toString().trim();
 //        phoneCode = binding.countryCodePicker.getSelectedCountryCodeWithPlus();
         phoneNumber = binding.phoneNumberEt.getText().toString().trim();
@@ -132,7 +136,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                     @Override
                     public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                         double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                        Log. d(TAG, "onProgress: Progress: "+progress);
+                        Log.d(TAG, "onProgress: Progress: "+progress);
                         progressDialog.setMessage("Uploading profile image. Progress: " + (int) progress + "%");
                     }
                 })
@@ -143,11 +147,11 @@ public class ProfileEditActivity extends AppCompatActivity {
                         Log. d(TAG, "onSuccess: Uploaded");
                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
 
-                        while(uriTask.isSuccessful());
-
+                        while(!uriTask.isSuccessful());
                         String uploadedImageUrl = uriTask. getResult().toString();
-
-                        updateProfileDb(uploadedImageUrl);
+                        if(uriTask.isSuccessful()) {
+                            updateProfileDb(uploadedImageUrl);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -163,19 +167,21 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     private void updateProfileDb(String imageUrl) {
         //show progress
-        progressDialog.setMessage("Updating user info...");
+        progressDialog.setMessage("Updating user info");
         progressDialog.show();
         //setup data in hashmap to update to firebase db
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", "" + name);
-        hashMap.put("dob", "" + dob);
+        hashMap.put("dept", "" + dept);
+        hashMap.put("session", "" + session);
+//        hashMap.put("dob", "" + dob);
         if (imageUrl != null) {
             //update profileImageUrl in db only if uploaded image url is not null
             hashMap.put("profileImageUrl", "" + imageUrl);
         }
 
         //update Phone
-        hashMap.put("phoneCode", phoneCode);
+//        hashMap.put("phoneCode", phoneCode);
         hashMap.put("phoneNumber", phoneNumber);
 
         //Reference of current user info in Firebase Realtime Database to get user info
@@ -212,23 +218,27 @@ public class ProfileEditActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //get user info, spelling should be same in firebase realtime database
-                        String dob = "" + snapshot.child("dob").getValue();
-                        String email = "" + snapshot.child("email").getValue();
+//                        String dob = "" + snapshot.child("dob").getValue();
+//                        String email = "" + snapshot.child("email").getValue();
                         String name = "" + snapshot.child("name").getValue();
-                        String phoneCode = "" + snapshot.child("phoneCode").getValue();
+                        String dept = "" + snapshot.child("dept").getValue();
+                        String session = "" + snapshot.child("session").getValue();
+//                        String phoneCode = "" + snapshot.child("phoneCode").getValue();
                         String phoneNumber = "" + snapshot.child("phoneNumber").getValue();
                         String profileImageUrl = "" + snapshot.child("profileImageUrl").getValue();
-                        String timestamp = "" + snapshot.child("timestamp").getValue();
-                        myUserType = "" + snapshot.child("userType").getValue();
+//                        String timestamp = "" + snapshot.child("timestamp").getValue();
+//                        myUserType = "" + snapshot.child("userType").getValue();
 
                         //concatenate phone code and phone number to make full phone number
-                        String phone = phoneCode + phoneNumber;
+//                        String phone = phoneCode + phoneNumber;
 
                         //set data to UI
                         //binding.emailEt.setText(email); //can't change email
                         binding.nameEt.setText(name);
-                        binding.dobEt.setText(dob);
-                        binding.phoneNumberEt.setText(phone);
+                        binding.deptEt.setText(dept);
+                        binding.sessionEt.setText(session);
+//                        binding.dobEt.setText(dob);
+                        binding.phoneNumberEt.setText(phoneNumber);
 
                         try {
                             Glide.with(ProfileEditActivity.this)
@@ -276,10 +286,10 @@ public class ProfileEditActivity extends AppCompatActivity {
                     //Gallery is clicked we need to check if we have permission of Storage before launching Gallery to Pick image
                     Log.d(TAG,"onMenuItemClick: Check if storage permission is granted or not");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES. TIRAMISU) {
-                    //Device version is TIRAMISU or above. We don't need Storage permission to lanuch Gallery
+                        //Device version is TIRAMISU or above. We don't need Storage permission to lunch Gallery
                         pickImageGallery();
                     } else {
-                        //Device version is below TIRAMISU. We need Storage permission to lanuch Gallery
+                        //Device version is below TIRAMISU. We need Storage permission to lunch Gallery
                         requestStoragePermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     }
                 }
@@ -350,9 +360,9 @@ public class ProfileEditActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     //Check if image is captured or not
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        //Image Captured, we have image in imageUri as asigned in pickImageCamera()
+                        //Image Captured, we have image in imageUri as assigned in pickImageCamera()
                         Log.d(TAG, "onActivityResult: Image Captured: " + imageUri);
-                        //set to profileIn
+                        //set to profileIv
                         try {
                             Glide.with(ProfileEditActivity.this)
                                     .load(imageUri)
@@ -372,7 +382,7 @@ public class ProfileEditActivity extends AppCompatActivity {
         Log.d(TAG, "pickImageGallery: ");
 
         //Intent to lunch Image picker e.g. gallery
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         //we only want to pick image
         intent.setType("image/*");

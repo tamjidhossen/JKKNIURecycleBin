@@ -214,6 +214,27 @@
                     android:text="Logout" />
             </com.google.android.material.card.MaterialCardView>
 
+            <!--MaterialCardView: Click to Verify Account-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/verifyAccountCv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                app:cardCornerRadius="10dp"
+                app:contentPadding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Verify Account"
+                    android:drawableStart="@drawable/ic_verified_gray"
+                    android:drawableEnd="@drawable/ic_next_grey"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="10dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
 
         </LinearLayout>
 

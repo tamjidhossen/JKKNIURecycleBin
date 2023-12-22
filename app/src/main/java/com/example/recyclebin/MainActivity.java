@@ -171,3 +171,8 @@ public class MainActivity extends AppCompatActivity {
 * 06) Edit Profile Coding (ProfileEditActivity.java)
 * 07) Setup Firebase Storage. Rules: Every one can read but only signed in users can write
 * 08) Test*/
+
+/*Steps - 4
+ * 01) Verify Account UI
+ * 02) Verify Account Code
+ * 03) Test*/

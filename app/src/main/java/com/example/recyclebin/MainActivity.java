@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         // By default (When App Opens) show Home
         showHomeFragment();
 
+
         //handle bottomNv item clicks to navigate between fragments
         binding.bottomNv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

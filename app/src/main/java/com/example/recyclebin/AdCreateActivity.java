@@ -34,6 +34,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.example.recyclebin.databinding.ActivityAdCreateBinding;
+import com.google.firebase.storage.internal.Util;
 
 import java.util.ArrayList;
 import java.util. HashMap;
@@ -80,6 +81,10 @@ public class AdCreateActivity extends AppCompatActivity {
         //Setup and set the conditions adapter to the Condition Input Filed i.e. conditionAct
         ArrayAdapter<String> adapterConditions = new ArrayAdapter<>(this, R.layout.row_condition_act, Utils.conditions);
         binding.conditionAct.setAdapter(adapterConditions);
+
+        //Setup and set the Location adapter to the Location Input Filed i.e. addressAct
+        ArrayAdapter<String> adapterLocation = new ArrayAdapter<>(this, R.layout.row_location_act, Utils.address);
+        binding.locationAct.setAdapter(adapterLocation);
 
         //init imagePickedArrayList
         imagePickedArrayList = new ArrayList<>();
@@ -325,11 +330,11 @@ public class AdCreateActivity extends AppCompatActivity {
             //no conditionAct entered in conditionAct, show error in conditionAct and focus
             binding.conditionAct.setError("Choose Condition");
             binding.conditionAct.requestFocus();
-        } /*else if (address.isEmpty()) {
+        } else if (address.isEmpty()) {
             //no locationAct entered in locationAct, show error in locationAct and focus
             binding.locationAct.setError("Choose Location");
             binding.locationAct.requestFocus();
-        }*/ else if (title.isEmpty()) {
+        } else if (title.isEmpty()) {
             //no titleEt entered in titleEt, show error in titleEt and focus
             binding.titleEt.setError("Enter Title");
             binding.titleEt.requestFocus();
@@ -445,6 +450,10 @@ public class AdCreateActivity extends AppCompatActivity {
                                         .updateChildren (hashMap) ;
                             }
                             progressDialog.dismiss();
+                            Utils.toast(AdCreateActivity.this, "Ad Published Successfully");
+
+                            // After publishing Ad successfully Go to Home
+                            startActivity(new Intent(AdCreateActivity.this, HomeFragment.class));
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

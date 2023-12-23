@@ -23,12 +23,24 @@ public class Utils {
             "Fashion & Beauty",
             "Books",
             "Sports",
-            "Animals",
             "Businesses",
             "Agriculture"
     };
 
-    //Conditions array of the Add
+    // Address Array of the Ads
+    public static final String[] address = {
+            "Central Field",
+            "Muktamanch",
+            "Bangamata Hall",
+            "Bangabondhu Hall",
+            "Agnibina Hall",
+            "Dolonchapa Hall",
+            "First Gate",
+            "Second Gate",
+            "Chorpara"
+    };
+
+    //Conditions array of the Ads
     public static final String[] conditions = {"New", "Used", "Refurbished"};
 
 

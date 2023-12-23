@@ -32,27 +32,31 @@
     <FrameLayout
         android:layout_below="@+id/toolbarRl"
         android:id="@+id/fragmentsFl"
-        android:layout_above="@+id/view1"
+        android:layout_above="@+id/bottomNv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!--View: To make BottomNavigationView look separate from other UI-->
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorGray02"
-        android:layout_above="@id/bottomNv" />
+<!--    &lt;!&ndash;View: To make BottomNavigationView look separate from other UI&ndash;&gt;-->
+<!--    <View-->
+<!--        android:id="@+id/view1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/colorGray02"-->
+<!--        android:layout_above="@id/bottomNv" />-->
 
     <!--BottomNavigationView: navigate between fragments-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"
         app:elevation="3dp"
+        android:background="@drawable/nav_background_curve"
         app:labelVisibilityMode="labeled"/>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/sellFab"

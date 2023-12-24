@@ -16,15 +16,25 @@ public class Utils {
     //Categories array of the Ads
     public static final String[] categories = {
             "Mobiles",
-            "Computer/Laptop",
-            "Electronics & Home Appliances",
+            "Computers",
+            "Electronics",
             "Vehicles",
-            "Furniture & Home Decor",
-            "Fashion & Beauty",
+            "Furniture",
+            "Fashion",
             "Books",
-            "Sports",
-            "Businesses",
-            "Agriculture"
+            "Others"
+    };
+
+    //Categories icon array of Ads
+    public static final int[] categoryIcons = {
+            R.drawable.ic_category_mobiles,
+            R.drawable.ic_category_computer,
+            R.drawable.ic_category_electronics,
+            R.drawable.ic_category_vehicles,
+            R.drawable.ic_category_furniture,
+            R.drawable.ic_category_fashion,
+            R.drawable.ic_category_books,
+            R.drawable.ic_category_others
     };
 
     // Address Array of the Ads

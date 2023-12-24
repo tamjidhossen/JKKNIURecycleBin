@@ -160,11 +160,10 @@ public class MainActivity extends AppCompatActivity {
 * 5) Handle Bottom Navigation Menu item click in MainActivity.java
 * 6) Create Required Fragments to show on clicking Bottom Navigation Menu
 * 7) Fragment Navigation
-* 8) Create Login Options Activity
-* 9) Add Login Options e.g. Google, Phone, Email*/
+* 8) Create Login Options Activity*/
 
 /*Steps - 2
- * 1) Enable Authentication Methods (Email) on Firebase
+ * 1) Enable Authentication Method (Email) on Firebase
  * 2) Add Permission Internet in Android Manifest
  * 3) Create Login Register Activities
  * 4) Login UI
@@ -179,10 +178,25 @@ public class MainActivity extends AppCompatActivity {
 * 04) Create the Activity ProfileEditActivity
 * 05) Edit Profile UI (activity_profile.xml)
 * 06) Edit Profile Coding (ProfileEditActivity.java)
-* 07) Setup Firebase Storage. Rules: Every one can read but only signed in users can write
-* 08) Test*/
+* 07) Setup Firebase Storage. Rules: Every one can read but only signed in users can write*/
 
 /*Steps - 4
  * 01) Verify Account UI
- * 02) Verify Account Code
- * 03) Test*/
+ * 02) Verify Account Code*/
+
+/*Steps - 5
+* 01) AdCreateActivity Create/Start
+* 02) Create Ad UI
+* 03) Create Ad Logic */
+
+/*Steps - 6
+* 01) Ads UI - fragment_home.xml
+* 02) Ad Category UI - row_category_home.xml
+* 03) Create Model (ModelCategoryHome) Class for Ad Categories List to show in RecyclerView (Horizontal)
+* 04) Create Custom Adapter (AdapterCategory) Class for Ad Categories List to show in RecyclerView (Horizontal)
+* 05) Create interface (RvListenerCategory) to handle Ad Category click event in Fragment (HomeFragment) instead of Adapter (AdapterCategory) Class
+* 06) Show Ads UI - row_ad.xml
+* 07) Create Model (ModelAd) Class for Ads List to show in RecyclerView
+* 08) Create Custom Adapter (AdapterAd) Class for Ads List to show in RecyclerView
+* 09) Create Filter (FilterAd) Class to search Ads
+* 10) Code logic in - HomeFragment.java*/

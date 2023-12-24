@@ -440,7 +440,7 @@ public class AdCreateActivity extends AppCompatActivity {
 
                             if (uriTask.isSuccessful()){
                                 HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put ("id", ""+modelImagePicked.imageUri);
+                                hashMap.put ("id", ""+modelImagePicked.getId());
                                 hashMap.put("imageUrl", ""+uploadedImageUrl);
 
                                 //add in firebase db. Ads -> AdId -> Images -> ImageId > ImageData

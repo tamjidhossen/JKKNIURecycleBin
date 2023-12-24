@@ -84,7 +84,7 @@ public class AdapterImagesPicked extends RecyclerView.Adapter<AdapterImagesPicke
 
             //init UI Views of the row_images_picked.xml
             imageIv = binding.imageIv;
-            closeBtn = binding. closeBtn;
+            closeBtn = binding.closeBtn;
         }
     }
 }

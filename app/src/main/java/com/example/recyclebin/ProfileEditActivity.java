@@ -194,7 +194,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         //Updated successfully
                         Log. d(TAG,"onSuccess: Info updated");
                         progressDialog.dismiss();
-                        Utils.toast(ProfileEditActivity.this,"Profile Updated...");
+                        Utils.toast(ProfileEditActivity.this,"Profile Updated");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

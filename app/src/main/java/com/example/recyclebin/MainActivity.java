@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                     if(firebaseAuth.getCurrentUser() == null) {
                         Utils.toast(MainActivity.this, "Login Required");
                         startLoginOptions();
-
                         return false;
                     } else {
                         showChatsFragment();
@@ -98,14 +97,18 @@ public class MainActivity extends AppCompatActivity {
         binding.sellFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
+                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                    startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
+                } else {
+                    Utils.toast(MainActivity.this, "Verify Account First");
+                }
             }
         });
     }
 
     private void showHomeFragment() {
         //change toolbar textView text/title to Home
-        binding. toolbarTitleTv.setText ("Home");
+//        binding. toolbarTitleTv.setText ("Home");
 
         //Show HomeFragment
         HomeFragment fragment = new HomeFragment();
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showChatsFragment(){
         //change toolbar textView text/title to Chats
-        binding. toolbarTitleTv.setText("Chats");
+//        binding. toolbarTitleTv.setText("Chats");
 
         //Show ChatsFragment
         ChatsFragment fragment = new ChatsFragment();
@@ -125,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showMyAdsFragment(){
         //change toolbar textView text/title to My Ads
-        binding.toolbarTitleTv.setText("My Ads");
+//        binding.toolbarTitleTv.setText("My Ads");
 
         //Show MyAdsFragment
         MyAdsFragment fragment = new MyAdsFragment();
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showAccountFragment(){
         //change toolbar textView text/title to Account
-        binding. toolbarTitleTv.setText ("Account");
+//        binding. toolbarTitleTv.setText ("Account");
 
         //Show AccountFragment
         AccountFragment fragment = new AccountFragment();
@@ -200,3 +203,13 @@ public class MainActivity extends AppCompatActivity {
 * 08) Create Custom Adapter (AdapterAd) Class for Ads List to show in RecyclerView
 * 09) Create Filter (FilterAd) Class to search Ads
 * 10) Code logic in - HomeFragment.java*/
+
+/*Steps - 7
+* 01) Check/Add/Remove the Ad to/from favorite
+* 82) Create MyAdsFragment Fragment for Tabs e.g. My Ads & Favourites
+* 83) My Ads Tabs - UI & Code
+* 85) Create/Setup MyAdsAdsFragment & MyAdsFavoriteFragment
+* 86) My Ads - UI & Code
+* 08) Favorites UI & Code*/
+
+

@@ -3,6 +3,7 @@
     <style name="Base.Theme.RecycleBin" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/Navy</item>
+
     </style>
 
     <style name="Theme.RecycleBin" parent="Base.Theme.RecycleBin" />

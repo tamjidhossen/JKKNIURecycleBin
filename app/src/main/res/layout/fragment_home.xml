@@ -27,6 +27,9 @@
                 android:drawableStart="@drawable/ic_search_gray"
                 android:drawablePadding="10dp"
                 android:hint="Search"
+                android:drawableTint="@color/DarkGreen"
+                android:textColorHint="@color/DarkGreen"
+                android:textColorHighlight="@color/DarkGreen"
                 android:padding="15dp" />
         </com.google.android.material.card.MaterialCardView>
 

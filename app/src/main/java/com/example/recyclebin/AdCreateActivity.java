@@ -23,12 +23,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -304,12 +308,14 @@ public class AdCreateActivity extends AppCompatActivity {
     private String price = "";
     private String title = "";
     private String description = "";
+    private String adOwnerName = "";
     private double latitude = 0;
     private double longitude = 0;
     private void validateData() {
         Log.d(TAG, "validateData: ");
 
         //input data
+        adOwnerName = firebaseAuth.getCurrentUser().getDisplayName();
         brand = binding.brandEt.getText().toString().trim();
         category = binding.categoryAct.getText().toString().trim();
         condition = binding.conditionAct.getText().toString().trim();
@@ -363,40 +369,62 @@ public class AdCreateActivity extends AppCompatActivity {
         //key id from the reference to use as Ad id
         String keyId = refAds.push().getKey();
 
-        //setup data to add in firebase database
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id", "" + keyId);
-        hashMap.put("vid", "" + firebaseAuth.getUid());
-        hashMap.put("brand", "" + brand);
-        hashMap.put("category", "" + category);
-        hashMap.put("condition", "" + condition);
-        hashMap.put("address", "" + address);
-        hashMap.put("price", "" + price);
-        hashMap.put("title", "" + title);
-        hashMap.put("description", "" + description);
-        hashMap.put("status", "" + Utils.AD_STATUS_AVAILABLE);
-        hashMap.put("timestamp", timestamp);
-        hashMap.put("latitude", latitude);
-        hashMap.put("longitude", longitude);
+        //Reference of current user info in Firebase Realtime Database to get user info
+        //Reference of current user info in Firebase Realtime Database to get user info
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adOwnerName = "" + snapshot.child("name").getValue();
 
-        //set data to firebase database. Ads -> AdId -> AdDataJSON
-        refAds.child(keyId)
-                .setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "onSuccess: Ad Published");
-                        uploadImagesStorage(keyId);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: ", e);
-                        progressDialog.dismiss();
-                        Utils.toast(AdCreateActivity.this, "Failed to publish Ad due to "+e.getMessage());
-                    }
-                });
+                //setup data to add in firebase database
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("adOwnerName", "" + adOwnerName);
+                hashMap.put("id", "" + keyId);
+                hashMap.put("vid", "" + firebaseAuth.getUid());
+                hashMap.put("brand", "" + brand);
+                hashMap.put("category", "" + category);
+                hashMap.put("condition", "" + condition);
+                hashMap.put("address", "" + address);
+                hashMap.put("price", "" + price);
+                hashMap.put("title", "" + title);
+                hashMap.put("description", "" + description);
+                hashMap.put("status", "" + Utils.AD_STATUS_AVAILABLE);
+                hashMap.put("timestamp", timestamp);
+                hashMap.put("latitude", latitude);
+                hashMap.put("longitude", longitude);
+
+                //set data to firebase database. Ads -> AdId -> AdDataJSON
+                refAds.child(keyId)
+                        .setValue(hashMap)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.d(TAG, "onSuccess: Ad Published");
+                                uploadImagesStorage(keyId);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: ", e);
+                                progressDialog.dismiss();
+                                Utils.toast(AdCreateActivity.this, "Failed to publish Ad due to "+e.getMessage());
+                            }
+                        });
+
+            }
+
+            @Override
+
+            public void onCancelled(@NonNull DatabaseError error) {
+
+
+            }
+
+        });
+
+
     }
     private void uploadImagesStorage(String adId) {
         Log.d(TAG, "uploadImagesStorage: ");

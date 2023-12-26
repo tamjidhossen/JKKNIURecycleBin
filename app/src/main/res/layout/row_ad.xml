@@ -19,97 +19,27 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginEnd="10dp"
-            app:shapeAppearanceOverlay="@style/ImageStyle_Corners_Rounded"
+        android:layout_marginTop="5dp"
+        app:shapeAppearanceOverlay="@style/ImageStyle_Corners_Rounded"
         android:background="@color/colorGray02"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_image_gray"
-        style="@style/ImageStyle_Corners_Rounded"/>
+        android:src="@drawable/ic_image_gray"/>
 
         <!--TextView: Ad Title-->
         <TextView
             android:id="@+id/titleTv"
             style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/imageIv"
-            android:layout_toStartOf="@id/favBtn"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="The Ad Title"/>
+            android:maxWidth="160dp"
+            android:text="The Ad Title"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-        <!--TextView: Ad Description-->
-        <TextView
-            android:id="@+id/descriptionTv"
-            style="@style/TextAppearance.MaterialComponents.Body2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/favBtn"
-            android:layout_toEndOf="@id/imageIv"
-            android:layout_below="@id/titleTv"
-            android:ellipsize="end"
-            android:lines="3"
-            android:text="The long description of the ad can be of multiple lines up to 3 lines"/>
-
-        <!--ImageButton: Ad/Remove the Ad to/from favourite-->
-        <ImageButton
-            android:id="@+id/favBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:padding="15dp"
-            android:src="@drawable/ic_fav_no"
-            android:background="@android:color/transparent"/>
-
-        <!--TextView: Show Address of the Ad-->
-        <TextView
-            android:id="@+id/addressTv"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/descriptionTv"
-            android:layout_toEndOf="@id/imageIv"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="The Address of the Ad"/>
-
-        <!--TextView: Show Condition of the Ad e.g. New/Used/Refurbished-->
-        <TextView
-            android:id="@+id/conditionTv"
-            style="@style/TextAppearance.MaterialComponents.Overline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addressTv"
-            android:text="New"
-            android:layout_toEndOf="@id/imageIv"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="5dp"/>
-
-        <!--TextView Show price symbol, added in strings.ml so you can change there-->
-        <TextView
-            android:id="@+id/priceSymbolTv"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addressTv"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="2dp"
-            android:layout_toEndOf="@id/conditionTv"
-            android:text="Tk."
-            android:textSize="12sp" />
-
-        <!--TextView: Show price of the product-->
-        <TextView
-            android:id="@+id/priceTv"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addressTv"
-            android:layout_toEndOf="@id/priceSymbolTv"
-            android:layout_marginTop="4dp"
-            android:text="00"
-            android:textSize="12sp"/>
         <!--TextView: Show date of the Ad when added-->
         <TextView
             android:id="@+id/dateTv"
@@ -118,13 +48,102 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textSize="12sp"
-            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/imageIv"
             android:text="dd/MM/yyyy"
             android:layout_marginEnd="10dp"
-            android:layout_below="@id/addressTv"/>
+            android:layout_below="@id/titleTv"/>
+
+        <!--TextView: Owner of the Ad-->
+        <TextView
+            android:id="@+id/ownerAdNameTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/priceSymbolTv"
+            android:layout_toStartOf="@+id/priceSymbolTv"
+            android:layout_toEndOf="@id/imageIv"
+            android:text="Owner Name"
+            android:textStyle = "italic"
+            android:textColor="@color/DarkGreen"
+            android:textSize="12sp" />
+
+<!--        &lt;!&ndash;TextView: Ad Description&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/descriptionTv"-->
+<!--            style="@style/TextAppearance.MaterialComponents.Body2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toStartOf="@id/favBtn"-->
+<!--            android:layout_toEndOf="@id/imageIv"-->
+<!--            android:layout_below="@id/titleTv"-->
+<!--            android:ellipsize="end"-->
+<!--            android:lines="3"-->
+<!--            android:text="The long description of the ad can be of multiple lines up to 3 lines"/>-->
+
+        <!--ImageButton: Ad/Remove the Ad to/from favourite-->
+        <ImageButton
+            android:id="@+id/favBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-10dp"
+            android:background="@android:color/transparent"
+            android:padding="15dp"
+            android:src="@drawable/ic_fav_no" />
+
+        <!--TextView: Show Address of the Ad-->
+<!--        <TextView-->
+<!--            android:id="@+id/addressTv"-->
+<!--            style="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/titleTv"-->
+<!--            android:layout_toEndOf="@id/imageIv"-->
+<!--            android:ellipsize="end"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="The Address of the Ad"/>-->
+
+        <!--TextView: Show Condition of the Ad e.g. New/Used/Refurbished-->
+        <TextView
+            android:id="@+id/conditionTv"
+            style="@style/TextAppearance.MaterialComponents.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/titleTv"
+            android:text="New"
+            android:textSize="7sp" />
+
+        <!--TextView Show price symbol, added in strings.ml so you can change there-->
+
+        <!--TextView: Show price of the product-->
+        <TextView
+            android:id="@+id/priceSymbolTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/favBtn"
+            android:layout_toStartOf="@+id/priceTv"
+            android:layout_marginTop="47dp"
+            android:layout_marginRight="5dp"
+            android:text="Tk."
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/priceTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/favBtn"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:text="00"
+            android:textSize="20sp" />
+
     </RelativeLayout>
-
-
-
-
 </com.google.android.material.card.MaterialCardView>

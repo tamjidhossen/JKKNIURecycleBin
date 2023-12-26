@@ -31,6 +31,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
     private static final String TAG = "ADAPTER_AD_TAG";
     //Firebase Auth for auth related tasks
     private FirebaseAuth firebaseAuth;
+
     //Context of activity/fragment from where instance of AdapterAd class is created
     private Context context;
     //adArrayList The list of the Ads
@@ -66,8 +67,9 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         ModelAd modelAd = adArrayList.get(position);
 
         String title = modelAd.getTitle();
-        String description = modelAd.getDescription();
-        String address = modelAd.getAddress();
+        String adOwnerName = modelAd.getAdOwnerName();
+//        String description = modelAd.getDescription();
+//        String address = modelAd.getAddress();
         String condition = modelAd.getCondition();
         String price = modelAd.getPrice();
         Long timestamp = modelAd.getTimestamp();
@@ -76,13 +78,65 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         //function call: load first image from available images of Ad e.g. if there are 5 images of Ad, load first one
         loadAdFirstImage(modelAd, holder);
 
+        //If user is logged in then check that if the Ad is in Favourite of Current user
+        if(firebaseAuth.getCurrentUser() != null) {
+            checkIsFavorite(modelAd, holder);
+        }
+
         //set data to UI Views of row_ad.xml
+
+        holder.ownerAdNameTv.setText(adOwnerName);
         holder.titleTv.setText(title);
-        holder.descriptionTv.setText(description);
-        holder.addressTv.setText(address);
+//        holder.descriptionTv.setText(description);
+//        holder.addressTv.setText(address);
         holder.conditionTv.setText(condition);
         holder.priceTv.setText(price);
         holder.dateTv.setText(formattedDate);
+
+        holder.favBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean favourite = modelAd.isFavorite();
+                if (favourite){
+                    Utils.removeFromFavorite(context, modelAd.getId());
+                } else {
+                    Utils.addToFavorite(context, modelAd.getId());
+                }
+            }
+        });
+    }
+
+
+
+    private void checkIsFavorite(ModelAd modelAd, HolderAd holder) {
+        // DB path to check if Ad is in Favorite of the current user. Users › vid › Favorites › adId
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid())
+                .child("Favorites")
+                .child(modelAd.getId())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // If snapshot exists (value is true), it means the Ad is in the favorite of the current user; otherwise, it is not.
+                        boolean favorite = snapshot.exists();
+                        // Set that value (true/false) to the model
+                        modelAd.setFavorite(favorite);
+
+                        // Check if it's a favorite or not to set the image of favBtn accordingly
+                        if (favorite) {
+                            // Favorite, set image ic_fav_yes to button favBtn
+                            holder.favBtn.setImageResource(R.drawable.ic_fav_yes);
+                        } else {
+                            // Not Favorite, set image ic_fav_no to button favBtn
+                            holder.favBtn.setImageResource(R.drawable.ic_fav_no);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle onCancelled, if needed
+                    }
+                });
     }
 
 
@@ -136,17 +190,18 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
     class HolderAd extends RecyclerView.ViewHolder{
         //UI Views of the row_ad.xml
         ShapeableImageView imageIv;
-        TextView titleTv, descriptionTv, addressTv, conditionTv, priceTv, dateTv;
+        TextView titleTv, ownerAdNameTv, descriptionTv, addressTv, conditionTv, priceTv, dateTv;
 
         ImageButton favBtn;
         public HolderAd(@NonNull View itemView) {
             super(itemView);
             //init UI Views of the row_ad.xml
+            ownerAdNameTv = binding.ownerAdNameTv;
             imageIv = binding.imageIv;
             titleTv = binding.titleTv;
-            descriptionTv = binding.descriptionTv;
+//            descriptionTv = binding.descriptionTv;
             favBtn = binding.favBtn;
-            addressTv = binding.addressTv;
+//            addressTv = binding.addressTv;
             conditionTv = binding.conditionTv;
             priceTv = binding.priceTv;
             dateTv = binding.dateTv;

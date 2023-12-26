@@ -12,6 +12,7 @@ public class ModelAd {
     String title;
     String description;
     String status;
+    String adOwnerName;
     long timestamp;
     double latitude;
     double longitude;
@@ -21,7 +22,8 @@ public class ModelAd {
 
     }
 
-    public ModelAd(String id, String vid, String brand, String category, String condition, String address, String price, String title, String description, String status, long timestamp, double latitude, double longitude, boolean favorite) {
+    public ModelAd(String adOwnerName, String id, String vid, String brand, String category, String condition, String address, String price, String title, String description, String status, long timestamp, double latitude, double longitude, boolean favorite) {
+        this.adOwnerName = adOwnerName;
         this.id = id;
         this.vid = vid;
         this.brand = brand;
@@ -37,6 +39,8 @@ public class ModelAd {
         this.longitude = longitude;
         this.favorite = favorite;
     }
+
+    public String getAdOwnerName() {return adOwnerName; }
 
     public String getId() {
         return id;

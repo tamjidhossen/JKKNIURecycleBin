@@ -23,6 +23,7 @@
 
         <TextView
             android:id="@+id/nameLabelTv"
+            android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
 
         <TextView
             android:id="@+id/emailLabelTv"
+            android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
 
         <TextView
             android:id="@+id/phoneLabelTv"
+            android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,6 +103,7 @@
 
         <TextView
             android:id="@+id/deptLabelTv"
+            android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -119,6 +123,7 @@
 
         <TextView
             android:id="@+id/sessionLabelTv"
+            android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,6 +143,7 @@
 
         <TextView
             android:id="@+id/verificationLabelTv"
+            android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

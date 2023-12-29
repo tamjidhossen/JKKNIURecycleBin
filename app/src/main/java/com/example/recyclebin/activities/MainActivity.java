@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,12 +9,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.recyclebin.fragments.ChatsFragment;
+import com.example.recyclebin.fragments.HomeFragment;
+import com.example.recyclebin.fragments.MyAdsFragment;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.ActivityMainBinding;
+import com.example.recyclebin.fragments.AccountFragment;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.Firebase;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.internal.Util;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -212,4 +215,12 @@ public class MainActivity extends AppCompatActivity {
 * 86) My Ads - UI & Code
 * 08) Favorites UI & Code*/
 
+/*Steps
+* 01) Create/Start AdDetailsActivity
+* 02) Ad Details - UI
+* 03) Load the Ad Details
+        03.1) row_image_slider
+        03.2) ModelImageSlider
+        03.3) AdapterImageSlider
+* 04) Load the Seller Info*/
 

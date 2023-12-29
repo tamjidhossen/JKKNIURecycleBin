@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,15 +6,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.recyclebin.AdapterAd;
-import com.example.recyclebin.ModelAd;
+import com.example.recyclebin.models.ModelAd;
+import com.example.recyclebin.adapters.AdapterAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

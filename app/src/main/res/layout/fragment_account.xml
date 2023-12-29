@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".AccountFragment">
+    tools:context=".fragments.AccountFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,26 +80,6 @@
             android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
             android:text="012345678"/>
-
-        <!--        Date of birth-->
-        <!--        <TextView-->
-        <!--            android:id="@+id/dobLabelTv"-->
-        <!--            style="@style/TextAppearance.MaterialComponents.Body1"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_below="@id/phoneLabelTv"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            android:text="D0B"/>-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/dobTv"-->
-        <!--            style="@style/TextAppearance.MaterialComponents.Caption"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_below="@id/phoneLabelTv"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            android:text="dd/MM/yyyy"/>-->
 
         <TextView
             android:id="@+id/deptLabelTv"

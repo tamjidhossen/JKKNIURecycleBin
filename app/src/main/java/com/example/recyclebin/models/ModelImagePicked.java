@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.models;
 
 import android.net.Uri;
 

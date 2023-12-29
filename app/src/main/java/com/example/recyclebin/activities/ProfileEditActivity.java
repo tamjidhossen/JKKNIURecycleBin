@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.activities;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.ActivityProfileEditBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

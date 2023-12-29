@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,19 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.example.recyclebin.activities.MainActivity;
+import com.example.recyclebin.activities.ProfileEditActivity;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.FragmentAccountBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.concurrent.ExecutionException;
 
 public class AccountFragment extends Fragment {
 
@@ -174,7 +174,7 @@ public class AccountFragment extends Fragment {
                             //Verified
                             binding.verifyAccountCv.setVisibility(View.GONE);
                             binding.verificationTv.setText("Verified");
-                            binding.verificationTv.setTextColor(getResources().getColor(R.color.Green));
+                            binding.verificationTv.setTextColor(getResources().getColor(R.color.DarkGreen));
                         } else {
                             //Not verified
                             binding.verifyAccountCv.setVisibility(View.VISIBLE);

@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;

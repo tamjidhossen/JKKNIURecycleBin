@@ -3,5 +3,8 @@
     <style name="Base.Theme.RecycleBin" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
          <item name="colorPrimary">@color/Navy</item>
+        <item name="colorPrimaryVariant">@color/DarkGreen</item>
+        <item name="android:statusBarColor">@color/Navy</item>
+
     </style>
 </resources>

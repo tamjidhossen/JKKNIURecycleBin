@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.activities;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -23,7 +23,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import com.bumptech.glide.Glide;
+import com.example.recyclebin.adapters.AdapterImageSlider;
+import com.example.recyclebin.fragments.HomeFragment;
+import com.example.recyclebin.models.ModelImagePicked;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
+import com.example.recyclebin.adapters.AdapterImagesPicked;
+import com.example.recyclebin.models.ModelImageSlider;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +44,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.example.recyclebin.databinding.ActivityAdCreateBinding;
-import com.google.firebase.storage.internal.Util;
 
 import java.util.ArrayList;
 import java.util. HashMap;
@@ -370,7 +375,6 @@ public class AdCreateActivity extends AppCompatActivity {
         String keyId = refAds.push().getKey();
 
         //Reference of current user info in Firebase Realtime Database to get user info
-        //Reference of current user info in Firebase Realtime Database to get user info
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(firebaseAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -402,6 +406,7 @@ public class AdCreateActivity extends AppCompatActivity {
                             public void onSuccess(Void unused) {
                                 Log.d(TAG, "onSuccess: Ad Published");
                                 uploadImagesStorage(keyId);
+                                wasUploadSuccessful(keyId);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -428,6 +433,7 @@ public class AdCreateActivity extends AppCompatActivity {
     }
     private void uploadImagesStorage(String adId) {
         Log.d(TAG, "uploadImagesStorage: ");
+
         //there are multiple images in imagePickedArrayList, loop to upload all
         for (int i = 0; i < imagePickedArrayList.size(); i++) {
             //get model from the current position of the imagePickedArrayList
@@ -449,7 +455,7 @@ public class AdCreateActivity extends AppCompatActivity {
                             //calculate the current progress of the image being uploaded
                             double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
                             //setup progress dialog message on basis of current progress. e.g. Uploading 1 of 10 images... Progress 95%
-                            String message = "Uploading" + imageIndexForProgress + " of " + imagePickedArrayList.size() + " images... \nProgress " + (int) progress + "%";
+                            String message = "Uploading " + imagePickedArrayList.size() + " images... \nPlease Wait... ";
                             Log.d (TAG, "onProgress: message: "+message);
                             //show progress
                             progressDialog. setMessage(message);
@@ -477,11 +483,7 @@ public class AdCreateActivity extends AppCompatActivity {
                                         .child(imageName)
                                         .updateChildren (hashMap) ;
                             }
-                            progressDialog.dismiss();
-                            Utils.toast(AdCreateActivity.this, "Ad Published Successfully");
-
-                            // After publishing Ad successfully Go to Home
-                            startActivity(new Intent(AdCreateActivity.this, HomeFragment.class));
+//
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -492,5 +494,40 @@ public class AdCreateActivity extends AppCompatActivity {
                         }
                     });
         }
+
+
+    }
+
+    private void wasUploadSuccessful(String adId) {
+        // Database path to load ad images: Ads > adId > Images
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+        ref.child(adId).child("Images").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Get the count of images under the "Images" node for the specified ad
+                long imageCount = snapshot.getChildrenCount();
+
+                // Now you can use the 'imageCount' variable as needed
+                Log.d(TAG, "Number of images uploaded: " + imageCount);
+
+                // Check the value of numOfUploaded using numOfUploaded[0]
+                if (imageCount < imagePickedArrayList.size()) {
+//                    progressDialog.dismiss();
+//                    Utils.toast(AdCreateActivity.this, "Some images failed to upload.");
+                    // You may want to implement additional logic, such as retrying the upload.
+                } else {
+                    progressDialog.dismiss();
+                    Utils.toast(AdCreateActivity.this, "Ad Published Successfully");
+
+                    // After publishing Ad successfully Go to Home
+                    startActivity(new Intent(AdCreateActivity.this, HomeFragment.class));
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

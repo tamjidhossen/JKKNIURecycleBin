@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.models;
 
 public class ModelAd {
     /*---Variables. spellings and case should be same as in firebase db---*/

@@ -34,7 +34,7 @@
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/imageIv"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:maxWidth="160dp"
             android:text="The Ad Title"
             android:textSize="15sp"
@@ -105,16 +105,16 @@
 <!--            android:text="The Address of the Ad"/>-->
 
         <!--TextView: Show Condition of the Ad e.g. New/Used/Refurbished-->
-        <TextView
-            android:id="@+id/conditionTv"
-            style="@style/TextAppearance.MaterialComponents.Overline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/titleTv"
-            android:text="New"
-            android:textSize="7sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/conditionTv"-->
+<!--            style="@style/TextAppearance.MaterialComponents.Overline"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="13dp"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:layout_toEndOf="@+id/titleTv"-->
+<!--            android:text="New"-->
+<!--            android:textSize="7sp" />-->
 
         <!--TextView Show price symbol, added in strings.ml so you can change there-->
 

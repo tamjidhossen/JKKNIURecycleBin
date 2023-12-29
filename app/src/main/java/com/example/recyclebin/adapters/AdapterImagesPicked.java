@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,6 +13,8 @@ import androidx. annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.recyclebin.models.ModelImagePicked;
+import com.example.recyclebin.R;
 import com.example.recyclebin.databinding.RowImagesPickedBinding;
 
 import java.util.ArrayList;

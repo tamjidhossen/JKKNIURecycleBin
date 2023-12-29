@@ -1,7 +1,9 @@
 package com.example.recyclebin;
 
-import android.widget.Adapter;
 import android.widget.Filter;
+
+import com.example.recyclebin.adapters.AdapterAd;
+import com.example.recyclebin.models.ModelAd;
 
 import java.util.ArrayList;
 

@@ -1,0 +1,314 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/m_toolbar_height"
+        android:background="@color/DarkGreen">
+
+        <!-- ImageButton: Click to go-back -->
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:padding="15dp" />
+
+        <!-- TextView: Toolbar Title -->
+        <TextView
+            android:id="@+id/toolbarTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="Ad Details"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true" />
+
+        <!-- ImageButton: Delete the Ad (show this button only if the Ad is selected) -->
+        <ImageButton
+            android:id="@+id/toolbarDeleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/toolbarEditBtn"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/white"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="15dp" />
+
+        <!-- ImageButton: Edit the Ad (show this button only if the Ad is by the current user) -->
+        <ImageButton
+            android:id="@+id/toolbarEditBtn"
+            app:tint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_gray"
+            android:layout_toStartOf="@id/toolbarFavBtn"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="15dp" />
+
+        <!-- ImageButton: Add/Remove the Ad to/from favorite -->
+        <ImageButton
+            android:id="@+id/toolbarFavBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fav_no_white"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGray02"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarRl">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <!-- ViewPager2: Show images of Ad, Slide left/right to change -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageSliderVp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+
+            <!-- TextView: Show Ad Title -->
+            <TextView
+                android:id="@+id/titleTv"
+                android:layout_below="@id/imageSliderVp"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                tools:text="@tools:sample/lorem[5]"
+                android:layout_marginTop="10dp"
+                android:textSize="25sp"
+                android:maxLines="3"/>
+
+            <!-- TextView: Show the Price Symbol -->
+            <TextView
+                android:id="@+id/priceSymbolTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/titleTv"
+                android:layout_marginEnd="2dp"
+                android:text="Tk "/>
+
+            <!-- TextView: Show the Price of Ad -->
+            <TextView
+                android:id="@+id/priceTv"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_below="@id/titleTv"
+                android:layout_toEndOf="@id/priceSymbolTv"
+                android:text="00"/>
+
+            <!-- TextView: Show the Ad product condition e.g. New, Used, Refurbished -->
+            <TextView
+                android:id="@+id/conditionTv"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTv"
+                android:layout_centerHorizontal="true"
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:text="Used"
+                android:textSize="12sp"/>
+
+            <!-- TextView: Show the date of Ad posted e.g. 20/12/2023 -->
+            <TextView
+                android:id="@+id/dateTv"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:text="dd/MM/yyyy"
+                android:layout_below="@+id/titleTv"
+                android:layout_alignParentEnd="true" />
+
+
+            <!-- TextView: Show the Ad description label -->
+            <TextView
+                android:id="@+id/descriptionLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textStyle="italic"
+                android:layout_below="@id/dateTv"
+                android:layout_marginTop="30dp"/>
+
+            <!-- TextView: Show the Ad description -->
+            <TextView
+                android:id="@+id/descriptionTv"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@tools:sample/lorem[20]"
+                android:layout_below="@id/descriptionLabelTv" />
+
+            <!-- TextView: Show the Address label -->
+            <TextView
+                android:id="@+id/addressLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meetup Location"
+                android:textStyle="italic"
+                android:layout_below="@id/descriptionTv"
+                android:layout_marginTop="30dp"/>
+
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_location_gray"
+                android:layout_below="@id/addressLabelTv"
+                android:layout_marginLeft="-5dp"
+                />
+
+
+            <!-- TextView: Show the Address -->
+            <TextView
+                android:id="@+id/addressTv"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addressLabelTv"
+                android:layout_toEndOf="@id/locationIcon"
+                tools:text="@tools:sample/lorem[5]"/>
+
+
+            <!-- MaterialButton: Click to open call intent with seller phone number -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/callBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locationIcon"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="30dp"
+                android:minHeight="@dimen/m_button_height"
+                android:text="Call"
+                android:textSize="10sp"
+                android:backgroundTint="@color/DarkGreen"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_call_white"/>
+
+            <!-- MaterialButton: Click to open sms with seller screen -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/smsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locationIcon"
+                android:layout_toRightOf="@id/callBtn"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:minHeight="@dimen/m_button_height"
+                android:text="SMS"
+                android:backgroundTint="@color/DarkGreen"
+                android:textSize="14sp"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_chat_white"/>
+
+
+
+            <!-- CardView: Seller Info e.g. name, profile image, member since date -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/sellerProfileCv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/callBtn"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/DarkGreen">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- ShapeableImageView: Show Seller profile image -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/sellerProfileIv"
+                        android:layout_width="40dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="40dp"
+                        app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
+                        android:background="@color/colorGray01"
+                        android:src="@drawable/ic_person_white"/>
+
+                    <!-- TextView: Show Seller Full Name -->
+                    <TextView
+                        android:id="@+id/sellerNameTv"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full Name"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@id/sellerProfileIv"/>
+
+                    <!-- TextView: Show the member since label -->
+                    <TextView
+                        android:id="@+id/deptLabelTv"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/sellerProfileIv"
+                        android:layout_below="@id/sellerNameTv"
+                        android:textColor="@color/white"
+                        android:text="Dept: "/>
+
+                    <!-- TextView: Show the member since date e.g. 20/06/2023 -->
+                    <TextView
+                        android:id="@+id/deptTv"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="DEPT"
+                        android:layout_toEndOf="@id/deptLabelTv"
+                        android:layout_below="@id/sellerNameTv"/>
+
+                    <!-- ImageView: Just an indicator to show next is something -->
+                    <ImageView
+                        android:id="@+id/nextIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        app:tint="@color/white"
+                        android:src="@drawable/ic_next_grey"/>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

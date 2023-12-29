@@ -1,6 +1,7 @@
-package com.example.recyclebin;
+package com.example.recyclebin.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.recyclebin.FilterAd;
+import com.example.recyclebin.activities.AdDetailsActivity;
+import com.example.recyclebin.models.ModelAd;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
 import com.google.android.material. imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -70,7 +76,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         String adOwnerName = modelAd.getAdOwnerName();
 //        String description = modelAd.getDescription();
 //        String address = modelAd.getAddress();
-        String condition = modelAd.getCondition();
+//        String condition = modelAd.getCondition();
         String price = modelAd.getPrice();
         Long timestamp = modelAd.getTimestamp();
         String formattedDate = Utils.formatTimestampDate(timestamp);
@@ -89,9 +95,19 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         holder.titleTv.setText(title);
 //        holder.descriptionTv.setText(description);
 //        holder.addressTv.setText(address);
-        holder.conditionTv.setText(condition);
+//        holder.conditionTv.setText(condition);
         holder.priceTv.setText(price);
         holder.dateTv.setText(formattedDate);
+
+        // handle itemView(i.e. Ad) click, open the AdDetailsActivity, also pass the id of the Ad to intent to load details
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AdDetailsActivity.class);
+                intent.putExtra("adId", modelAd.getId());
+                context.startActivity(intent);
+            }
+        });
 
         holder.favBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +218,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
 //            descriptionTv = binding.descriptionTv;
             favBtn = binding.favBtn;
 //            addressTv = binding.addressTv;
-            conditionTv = binding.conditionTv;
+//            conditionTv = binding.conditionTv;
             priceTv = binding.priceTv;
             dateTv = binding.dateTv;
         }

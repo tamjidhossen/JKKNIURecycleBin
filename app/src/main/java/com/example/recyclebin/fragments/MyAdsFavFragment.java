@@ -1,10 +1,8 @@
-package com.example.recyclebin;
+package com.example.recyclebin.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.recyclebin.models.ModelAd;
+import com.example.recyclebin.adapters.AdapterAd;
 import com.example.recyclebin.databinding.FragmentMyAdsFavBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

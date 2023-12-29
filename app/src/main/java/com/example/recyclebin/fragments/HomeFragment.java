@@ -1,17 +1,9 @@
-package com.example.recyclebin;
+package com.example.recyclebin.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,6 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.recyclebin.models.ModelAd;
+import com.example.recyclebin.models.ModelCategoryHome;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
+import com.example.recyclebin.adapters.AdapterAd;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -109,7 +106,7 @@ public class HomeFragment extends Fragment {
         categoryArrayList.add(modelCategoryAll);
 
         //get categories from Utils class and add in categoryArraylist
-        for (int i=0; i<Utils.categories.length; i++){
+        for (int i = 0; i< Utils.categories.length; i++){
             //ModelCategory instance to get/hold category from current index
             ModelCategoryHome modelCategory = new ModelCategoryHome(Utils.categories[i], Utils.categoryIcons[i]);
             //add modelCategory to categoryArrayList

@@ -67,19 +67,6 @@
             android:textColor="@color/DarkGreen"
             android:textSize="12sp" />
 
-<!--        &lt;!&ndash;TextView: Ad Description&ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:id="@+id/descriptionTv"-->
-<!--            style="@style/TextAppearance.MaterialComponents.Body2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_toStartOf="@id/favBtn"-->
-<!--            android:layout_toEndOf="@id/imageIv"-->
-<!--            android:layout_below="@id/titleTv"-->
-<!--            android:ellipsize="end"-->
-<!--            android:lines="3"-->
-<!--            android:text="The long description of the ad can be of multiple lines up to 3 lines"/>-->
-
         <!--ImageButton: Ad/Remove the Ad to/from favourite-->
         <ImageButton
             android:id="@+id/favBtn"
@@ -91,32 +78,6 @@
             android:background="@android:color/transparent"
             android:padding="15dp"
             android:src="@drawable/ic_fav_no" />
-
-        <!--TextView: Show Address of the Ad-->
-<!--        <TextView-->
-<!--            android:id="@+id/addressTv"-->
-<!--            style="@style/TextAppearance.MaterialComponents.Caption"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/titleTv"-->
-<!--            android:layout_toEndOf="@id/imageIv"-->
-<!--            android:ellipsize="end"-->
-<!--            android:maxLines="1"-->
-<!--            android:text="The Address of the Ad"/>-->
-
-        <!--TextView: Show Condition of the Ad e.g. New/Used/Refurbished-->
-<!--        <TextView-->
-<!--            android:id="@+id/conditionTv"-->
-<!--            style="@style/TextAppearance.MaterialComponents.Overline"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="13dp"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:layout_toEndOf="@+id/titleTv"-->
-<!--            android:text="New"-->
-<!--            android:textSize="7sp" />-->
-
-        <!--TextView Show price symbol, added in strings.ml so you can change there-->
 
         <!--TextView: Show price of the product-->
         <TextView

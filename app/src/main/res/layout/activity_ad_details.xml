@@ -36,7 +36,7 @@
             android:id="@+id/toolbarDeleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/toolbarEditBtn"
+            android:layout_toStartOf="@id/toolbarFavBtn"
             android:src="@drawable/ic_delete"
             app:tint="@color/white"
             android:layout_centerVertical="true"
@@ -44,16 +44,16 @@
             android:padding="15dp" />
 
         <!-- ImageButton: Edit the Ad (show this button only if the Ad is by the current user) -->
-        <ImageButton
-            android:id="@+id/toolbarEditBtn"
-            app:tint="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit_gray"
-            android:layout_toStartOf="@id/toolbarFavBtn"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:padding="15dp" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/toolbarEditBtn"-->
+<!--            app:tint="@color/white"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_edit_gray"-->
+<!--            android:layout_toStartOf="@id/toolbarFavBtn"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:padding="15dp" />-->
 
         <!-- ImageButton: Add/Remove the Ad to/from favorite -->
         <ImageButton

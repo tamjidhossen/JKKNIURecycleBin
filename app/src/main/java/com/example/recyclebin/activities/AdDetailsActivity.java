@@ -3,9 +3,14 @@ package com.example.recyclebin.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +63,7 @@ public class AdDetailsActivity extends AppCompatActivity {
 
         // Hide some UI views at the start.
         // We will show the Edit, Delete option if the user is Ad owner.
-        binding.toolbarEditBtn.setVisibility(View.GONE);
+//        binding.toolbarEditBtn.setVisibility(View.GONE);
         binding.toolbarDeleteBtn.setVisibility(View.GONE);
 //        binding.chatBtn.setVisibility(View.GONE);
 //        binding.callBtn.setVisibility(View.GONE);
@@ -115,12 +120,12 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
 
         // Handle toolbarEditBtn click, start AdCreateActivity to edit this Ad
-        binding.toolbarEditBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start AdCreateActivity to edit this Ad
-            }
-        });
+//        binding.toolbarEditBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editOptions();
+//            }
+//        });
 
         // Handle toolbarFavBtn click, add/remove favorite
         binding.toolbarFavBtn.setOnClickListener(new View.OnClickListener() {
@@ -141,57 +146,119 @@ public class AdDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start SellerProfileActivity
+                Intent intent = new Intent(AdDetailsActivity.this, AdSellerProfileActivity.class);
+                intent.putExtra("sellerUid", sellerUid);
+                startActivity(intent);
+            }
+        });
+
+        binding.callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                    // implement call button action
+                } else {
+                    Utils.toast(AdDetailsActivity.this, "Verify Account First");
+                }
+            }
+        });
+
+        binding.smsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                    // implement sms button action
+                } else {
+                    Utils.toast(AdDetailsActivity.this, "Verify Account First");
+                }
             }
         });
 
     }
 
-    private void showMarkAsSoldDialog() {
-        // Material Alert Dialog - Setup and show
-        MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this);
-        alertDialogBuilder.setTitle("Mark as Sold")
-                .setMessage("Are you sure you want to mark this Ad as sold?")
-                .setPositiveButton("SOLD", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "onClick: Sold Clicked..");
+    // Edit Option for Ads and Mark as sold
+//    private void editOptions() {
+//        Log.d(TAG, "editOptions: ");
+//
+//        // Init/setup popup menu
+//        PopupMenu popupMenu = new PopupMenu(this, binding.toolbarEditBtn);
+//
+//        // Add menu items to PopupMenu with params Group ID, Item ID, Order, Title
+//        popupMenu.getMenu().add(Menu.NONE, 0, 0, "Edit");
+//        popupMenu.getMenu().add(Menu.NONE, 1, 1, "Mark As Sold");
+//
+//        // Show popup menu
+//        popupMenu.show();
+//
+//        // Handle popup menu item click
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                // Get id of the menu item clicked
+//                int itemId = item.getItemId();
+//
+//                if (itemId == 0) {
+//                    // Edit Clicked, start the AdCreateActivity with Ad Id and isEditMode as true
+//                    Intent intent = new Intent(AdDetailsActivity.this, AdCreateActivity.class);
+//                    intent.putExtra("isEditMode", true);
+//                    intent.putExtra("adId", adId);
+//                    startActivity(intent);
+//                } else if (itemId == 1) {
+//                    // Mark As Sold
+//                    showMarkAsSoldDialog();
+//                }
+//                return true;
+//            }
+//        });
+//    }
 
-                        // Setup info to update in the existing Ad
-                        // Mark as sold by setting the value of status to SOLD
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("status", "" + Utils.AD_STATUS_SOLD);
 
-                        // Ad's db path to update its available/sold status. Ads > AdId
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
-                        ref.child(adId).updateChildren(hashMap)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        // Success
-                                        Log.d(TAG, "onSuccess: Marked as sold");
-                                        Utils.toast(AdDetailsActivity.this, "Marked as sold");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Failure
-                                        Log.e(TAG, "onFailure: ", e);
-                                        Utils.toast(AdDetailsActivity.this,
-                                                "Failed to mark as sold due to " + e.getMessage());
-                                    }
-                                });
-                    }
-                })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "onClick: Cancel Clicked...");
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
+//    private void showMarkAsSoldDialog() {
+//        // Material Alert Dialog - Setup and show
+//        MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this);
+//        alertDialogBuilder.setTitle("Mark as Sold")
+//                .setMessage("Are you sure you want to mark this Ad as sold?")
+//                .setPositiveButton("SOLD", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Log.d(TAG, "onClick: Sold Clicked..");
+//
+//                        // Setup info to update in the existing Ad
+//                        // Mark as sold by setting the value of status to SOLD
+//                        HashMap<String, Object> hashMap = new HashMap<>();
+//                        hashMap.put("status", "" + Utils.AD_STATUS_SOLD);
+//
+//                        // Ad's db path to update its available/sold status. Ads > AdId
+//                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+//                        ref.child(adId).updateChildren(hashMap)
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        // Success
+//                                        Log.d(TAG, "onSuccess: Marked as sold");
+//                                        Utils.toast(AdDetailsActivity.this, "Marked as sold");
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        // Failure
+//                                        Log.e(TAG, "onFailure: ", e);
+//                                        Utils.toast(AdDetailsActivity.this,
+//                                                "Failed to mark as sold due to " + e.getMessage());
+//                                    }
+//                                });
+//                    }
+//                })
+//                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Log.d(TAG, "onClick: Cancel Clicked...");
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .show();
+//    }
 
     private void loadAdDetails() {
         Log.d(TAG, "LoadAdDetails: ");
@@ -224,12 +291,12 @@ public class AdDetailsActivity extends AppCompatActivity {
                             if (sellerUid != null && sellerUid.equals(firebaseAuth.getUid())) {
                                 // Ad is created by currently signed-in user
                                 // 1) Should be able to edit and delete Ad
-                                binding.toolbarEditBtn.setVisibility(View.VISIBLE);
+//                                binding.toolbarEditBtn.setVisibility(View.VISIBLE);
                                 binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
                             } else {
                                 // Ad is not created by currently signed-in user
                                 // 1) Shouldn't be able to edit and delete Ad
-                                binding.toolbarEditBtn.setVisibility(View.GONE);
+//                                binding.toolbarEditBtn.setVisibility(View.GONE);
                                 binding.toolbarDeleteBtn.setVisibility(View.GONE);
                             }
 
@@ -271,10 +338,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                     String name = "" + snapshot.child("name").getValue();
                     String profileImageUrl = "" + snapshot.child("profileImageUrl").getValue();
                     String dept = "" + snapshot.child("dept").getValue();
-//                    Long timestamp = (Long) snapshot.child("timestamp").getValue();
-
-                    // Format timestamp to dd/MM/yyyy
-//                    String formattedDate = Utils.formatTimestampDate(timestamp);
 
                     // Combine phone code and phone number to get the seller's phone
                     sellerPhone = phoneNumber;
@@ -282,7 +345,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                     // Set data to UI Views
                     binding.sellerNameTv.setText(name);
                     binding.deptTv.setText(dept);
-//                    binding.memberSinceTv.setText(formattedDate);
 
                     // Load seller's profile image using Glide
                     Glide.with(AdDetailsActivity.this)

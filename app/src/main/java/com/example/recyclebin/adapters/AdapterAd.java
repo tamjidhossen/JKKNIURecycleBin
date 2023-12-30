@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.example.recyclebin.databinding.RowAdBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implements Filterable {
     //View Binding
@@ -53,12 +54,20 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
 
     public AdapterAd(Context context, ArrayList<ModelAd> adArrayList) {
         this.context = context;
-        this.adArrayList = adArrayList;
-        this.filterList = adArrayList;
+        this.adArrayList = reverseList(adArrayList); // Reverse the list
+        this.filterList = this.adArrayList;
 
         //get instance of firebase auth for Auth related tasks
         firebaseAuth = FirebaseAuth.getInstance();
     }
+
+    // Helper method to reverse the list, so the latest ad stays on top
+    private ArrayList<ModelAd> reverseList(ArrayList<ModelAd> list) {
+        ArrayList<ModelAd> reversedList = new ArrayList<>(list);
+        Collections.reverse(reversedList);
+        return reversedList;
+    }
+
 
     @NonNull
     @Override

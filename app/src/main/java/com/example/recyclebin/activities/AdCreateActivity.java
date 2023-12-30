@@ -62,6 +62,8 @@ public class AdCreateActivity extends AppCompatActivity {
     //Image Uri to hold uri of the image (picked/captured using Gallery/Camera) to add in Ad Images List
     private Uri imageUri = null;
 
+    private boolean isEditMode = false;
+    private String adIdForEditing = "";
 
     //list of images (picked/captured using Gallery/Camera or from internet)
     private ArrayList<ModelImagePicked> imagePickedArrayList;
@@ -97,6 +99,27 @@ public class AdCreateActivity extends AppCompatActivity {
 
         //init imagePickedArrayList
         imagePickedArrayList = new ArrayList<>();
+
+        Intent intent = getIntent(); // Added parentheses to the method call
+        isEditMode = intent.getBooleanExtra("isEditMode", false); // Removed colon, fixed method call
+        Log.d(TAG, "onCreate: isEditMode: " + isEditMode); // Removed colon
+
+        if (isEditMode) {
+            // Edit Ad Model: Get the Ad Id for editing the Ad
+            adIdForEditing = intent.getStringExtra("adId");
+            // Function call to load Ad details by using Ad Id
+            loadAdDetails();
+
+            // Change toolbar title and submit button text
+            binding.toolbarTitleTv.setText("Update Ad");
+            binding.postAdBtn.setText("Update Ad");
+        } else {
+            // New Ad Mode: Change toolbar title and submit button text
+            binding.toolbarTitleTv.setText("Create Ad");
+            binding.postAdBtn.setText("Post Ad");
+        }
+
+
         //loadImages
         loadImages();
 
@@ -357,7 +380,11 @@ public class AdCreateActivity extends AppCompatActivity {
             Utils.toast(this, "Pick at-least one image");
         } else {
             //All data is validated, we can proceed further now
-            postAd();
+            if(isEditMode) {
+                updateAd();
+            } else {
+                postAd();
+            }
         }
     }
 
@@ -395,8 +422,8 @@ public class AdCreateActivity extends AppCompatActivity {
                 hashMap.put("description", "" + description);
                 hashMap.put("status", "" + Utils.AD_STATUS_AVAILABLE);
                 hashMap.put("timestamp", timestamp);
-                hashMap.put("latitude", latitude);
-                hashMap.put("longitude", longitude);
+//                hashMap.put("latitude", latitude);
+//                hashMap.put("longitude", longitude);
 
                 //set data to firebase database. Ads -> AdId -> AdDataJSON
                 refAds.child(keyId)
@@ -431,6 +458,48 @@ public class AdCreateActivity extends AppCompatActivity {
 
 
     }
+
+    private void updateAd() {
+        Log.d(TAG, "updateAd: ");
+
+        // Show a progress dialog
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Updating Ad");
+        progressDialog.show();
+
+        // Setup data to add in Firebase database
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("brand", brand); // Assuming brand is a variable
+        hashMap.put("category", category);
+        hashMap.put("condition", condition);
+        hashMap.put("address", address); // Assuming address is a variable
+        hashMap.put("price", price); // Assuming price is a variable
+        hashMap.put("title", title);
+        hashMap.put("description", description); // Assuming description is a variable
+
+        // Database path to update Ad. Ads > AdId > DataToUpdate
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+        ref.child(adIdForEditing).updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // Ad data update success
+                        progressDialog.dismiss();
+                        // Start uploading images picked for the Ad
+                        uploadImagesStorage(adIdForEditing);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Ad data update failed
+                        progressDialog.dismiss();
+                        Log.e(TAG, "onFailure: ", e);
+                        Utils.toast(AdCreateActivity.this, "Failed to update Ad due to " + e.getMessage());
+                    }
+                });
+    }
+
     private void uploadImagesStorage(String adId) {
         Log.d(TAG, "uploadImagesStorage: ");
 
@@ -438,61 +507,66 @@ public class AdCreateActivity extends AppCompatActivity {
         for (int i = 0; i < imagePickedArrayList.size(); i++) {
             //get model from the current position of the imagePickedArrayList
             ModelImagePicked modelImagePicked = imagePickedArrayList.get(i);
-            //for name of the image in firebase storage
-            String imageName = modelImagePicked.getId();
-            //path and name of the image in firebase storage
-            String filePathAndName = "Ads/" + imageName;
 
-            int imageIndexForProgress = i + 1;
+            //Upload image only if picked from Gallery or cam
+            if(!modelImagePicked.getFromInternet()) {
+                //for name of the image in firebase storage
+                String imageName = modelImagePicked.getId();
+                //path and name of the image in firebase storage
+                String filePathAndName = "Ads/" + imageName;
 
-            //Storage reference with filePathAndName
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+                int imageIndexForProgress = i + 1;
 
-            storageReference.putFile(modelImagePicked.getImageUri())
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            //calculate the current progress of the image being uploaded
-                            double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                            //setup progress dialog message on basis of current progress. e.g. Uploading 1 of 10 images... Progress 95%
-                            String message = "Uploading " + imagePickedArrayList.size() + " images... \nPlease Wait... ";
-                            Log.d (TAG, "onProgress: message: "+message);
-                            //show progress
-                            progressDialog. setMessage(message);
-                            progressDialog.show() ;
-                        }
-                    })
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Log.d(TAG, "onSuccess: ");
+                //Storage reference with filePathAndName
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
 
-                            //image uploaded get url of uploaded image
-                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isSuccessful());
-                            Uri uploadedImageUrl = uriTask.getResult();
-
-                            if (uriTask.isSuccessful()){
-                                HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put ("id", ""+modelImagePicked.getId());
-                                hashMap.put("imageUrl", ""+uploadedImageUrl);
-
-                                //add in firebase db. Ads -> AdId -> Images -> ImageId > ImageData
-                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Ads");
-                                ref.child(adId).child("Images")
-                                        .child(imageName)
-                                        .updateChildren (hashMap) ;
+                storageReference.putFile(modelImagePicked.getImageUri())
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                //calculate the current progress of the image being uploaded
+                                double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                                //setup progress dialog message on basis of current progress. e.g. Uploading 1 of 10 images... Progress 95%
+                                String message = "Uploading " + imagePickedArrayList.size() + " images... \nPlease Wait... ";
+                                Log.d (TAG, "onProgress: message: "+message);
+                                //show progress
+                                progressDialog. setMessage(message);
+                                progressDialog.show() ;
                             }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Log.d(TAG, "onSuccess: ");
+
+                                //image uploaded get url of uploaded image
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while (!uriTask.isSuccessful());
+                                Uri uploadedImageUrl = uriTask.getResult();
+
+                                if (uriTask.isSuccessful()){
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put ("id", ""+modelImagePicked.getId());
+                                    hashMap.put("imageUrl", ""+uploadedImageUrl);
+
+                                    //add in firebase db. Ads -> AdId -> Images -> ImageId > ImageData
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Ads");
+                                    ref.child(adId).child("Images")
+                                            .child(imageName)
+                                            .updateChildren (hashMap) ;
+                                }
 //
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: ", e);
-                            progressDialog.dismiss();
-                        }
-                    });
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: ", e);
+                                progressDialog.dismiss();
+                            }
+                        });
+            }
+
         }
 
 
@@ -530,4 +604,62 @@ public class AdCreateActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void loadAdDetails() {
+        Log.d(TAG, "LoadAdDetails: ");
+
+        // Ad's db path to get the Ad details. Ads › AdId
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+        ref.child(adIdForEditing)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // Get the Ad details from the Firebase db
+                        String brand = "" + snapshot.child("brand").getValue();
+//                        String category = "" + snapshot.child("category").getValue();
+                        String condition = "" + snapshot.child("condition").getValue();
+//                        double latitude = (Double) snapshot.child("latitude").getValue();
+//                        double longitude = (Double) snapshot.child("Longitude").getValue(); // Corrected case
+                        String address = "" + snapshot.child("address").getValue();
+                        String price = "" + snapshot.child("price").getValue();
+                        String description = "" + snapshot.child("description").getValue();
+
+                        // Set data to UI Views (Form)
+                        binding.brandEt.setText(brand);
+//                        binding.categoryAct.setText(category);
+                        binding.conditionAct.setText(condition);
+                        binding.locationAct.setText(address);
+                        binding.priceEt.setText(price);
+                        binding.descriptionEt.setText(description);
+
+                        // Load the Ad images. Ads > AdId › Images
+                        DatabaseReference refImages = snapshot.child("Images").getRef();
+                        refImages.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                // Might be multiple images, so loop to get all
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    String id = "" + ds.child("id").getValue();
+                                    String imageUrl = "" + ds.child("imageUrl").getValue();
+                                    ModelImagePicked modelImagePicked = new ModelImagePicked(id, null, imageUrl, true);
+                                    imagePickedArrayList.add(modelImagePicked);
+                                }
+                                // Call a method to load images
+                                loadImages();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle onCancelled
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle onCancelled
+                    }
+                });
+    }
+
 }

@@ -54,9 +54,6 @@ public class AdapterCategoryHome extends RecyclerView.Adapter<AdapterCategoryHom
         String category = modelCategory.getCategory();
         int icon = modelCategory.getIcon();
 
-        //get random color to set as background color of the categoryIconIv
-//        Random random = new Random();
-//        int color = Color.argb(255, random.nextInt(255), random.nextInt(255), random.nextInt(255)) ;
 
         //set data to UI Views of row_category.xml
         holder.categoryIconIv.setImageResource(icon);

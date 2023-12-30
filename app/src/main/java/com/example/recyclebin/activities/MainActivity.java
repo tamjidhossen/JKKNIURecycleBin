@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(firebaseAuth.getCurrentUser().isEmailVerified()) {
                     startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
+                    // Below is for Edit button
+//                    Intent intent = new Intent(MainActivity.this, AdCreateActivity.class);
+//                    intent.putExtra("isEditMode", false);
+//                    startActivity(intent);
                 } else {
                     Utils.toast(MainActivity.this, "Verify Account First");
                 }
@@ -215,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 * 86) My Ads - UI & Code
 * 08) Favorites UI & Code*/
 
-/*Steps
+/*Steps - 8
 * 01) Create/Start AdDetailsActivity
 * 02) Ad Details - UI
 * 03) Load the Ad Details
@@ -224,3 +228,6 @@ public class MainActivity extends AppCompatActivity {
         03.3) AdapterImageSlider
 * 04) Load the Seller Info*/
 
+/*Steps - 9
+* 01) Edit Ad button click handle
+* 02) Mark as sold*/

@@ -102,7 +102,7 @@ public class Utils {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             // Not logged in, can't add to favorites
-            Utils.toast(context, "You're not logged in!");
+            Utils.toast(context, "Login Required");
         } else {
             // Logged in, can add to favorites
             // Get timestamp
@@ -147,7 +147,7 @@ public class Utils {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             // Not logged in, can't remove from favorite
-            Utils.toast(context, "You're not logged in!");
+            Utils.toast(context, "Login Required");
         } else {
             // Logged in, can remove from favorite
             // Remove data from the database: Users › vid › Favorites › adId

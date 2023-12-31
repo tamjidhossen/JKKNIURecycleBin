@@ -70,17 +70,17 @@ public class AccountFragment extends Fragment {
 
         loadMyInfo();
 
-        //handle logoutBtn click, logout user and start MainActivity
-        binding.logoutCv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //logout user
-                firebaseAuth.signOut();
-                //start MainActivity
-                startActivity(new Intent(mContext, MainActivity.class));
-                getActivity().finishAffinity();
-            }
-        });
+//        //handle logoutBtn click, logout user and start MainActivity
+//        binding.logoutCv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //logout user
+//                firebaseAuth.signOut();
+//                //start MainActivity
+//                startActivity(new Intent(mContext, MainActivity.class));
+//                getActivity().finishAffinity();
+//            }
+//        });
 
         binding.editProfileCv.setOnClickListener(new View.OnClickListener() {
             @Override

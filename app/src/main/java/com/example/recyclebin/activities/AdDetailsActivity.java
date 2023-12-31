@@ -146,30 +146,43 @@ public class AdDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start SellerProfileActivity
-                Intent intent = new Intent(AdDetailsActivity.this, AdSellerProfileActivity.class);
-                intent.putExtra("sellerUid", sellerUid);
-                startActivity(intent);
+                if(firebaseAuth.getCurrentUser() == null) {
+                    Utils.toast(AdDetailsActivity.this, "Login Required");
+                } else {
+                    Intent intent = new Intent(AdDetailsActivity.this, AdSellerProfileActivity.class);
+                    intent.putExtra("sellerUid", sellerUid);
+                    startActivity(intent);
+                }
             }
         });
 
         binding.callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-                    // implement call button action
+                if(firebaseAuth.getCurrentUser() == null) {
+                    Utils.toast(AdDetailsActivity.this, "Login Required");
                 } else {
-                    Utils.toast(AdDetailsActivity.this, "Verify Account First");
+                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        // implement call button action
+                    } else {
+                        Utils.toast(AdDetailsActivity.this, "Verify Account First");
+                    }
                 }
+
             }
         });
 
         binding.smsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-                    // implement sms button action
+                if(firebaseAuth.getCurrentUser() == null) {
+                    Utils.toast(AdDetailsActivity.this, "Login Required");
                 } else {
-                    Utils.toast(AdDetailsActivity.this, "Verify Account First");
+                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        // implement sms button action
+                    } else {
+                        Utils.toast(AdDetailsActivity.this, "Verify Account First");
+                    }
                 }
             }
         });

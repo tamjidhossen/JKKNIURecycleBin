@@ -119,18 +119,27 @@ public class MyAdsFavFragment extends Fragment {
 
                     // Firebase DB listener to Load Ad details based on id of the Ad we just got
                     DatabaseReference adRef = FirebaseDatabase.getInstance().getReference("Ads");
+
                     adRef.child(adId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            try {
-                                // Prepare ModelAd with all data from Firebase DB
-                                ModelAd modelAd = snapshot.getValue(ModelAd.class);
-                                // add prepared model to adArrayList
-                                adArrayList.add(modelAd);
-                                adapterAd.notifyDataSetChanged(); // Notify adapter about data change
-                            } catch (Exception e) {
-                                Log.e(TAG, "onDataChange: ", e);
+
+                            if(snapshot.exists()) {
+                                try {
+                                    // Prepare ModelAd with all data from Firebase DB
+                                    ModelAd modelAd = snapshot.getValue(ModelAd.class);
+                                    // add prepared model to adArrayList
+                                    adArrayList.add(modelAd);
+                                    adapterAd.notifyDataSetChanged(); // Notify adapter about data change
+                                } catch (Exception e) {
+                                    Log.e(TAG, "onDataChange: ", e);
+                                }
+                            } else {
+                                // If the ad which has been added to favourite has been deleted, remove from fav
+                                favRef.child(adId).removeValue();
+                                Log.d(TAG, "onDataChange: Ad doesn't exist: " + adId);
                             }
+
                         }
 
                         @Override

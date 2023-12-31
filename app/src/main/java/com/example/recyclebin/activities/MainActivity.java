@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.example.recyclebin.R;
 import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.ActivityMainBinding;
 import com.example.recyclebin.fragments.AccountFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     //home item clicked, show fragment
                     showHomeFragment();
                     return true;
-                } else if(itemId == R.id.menu_chats) {
+                } /*else if(itemId == R.id.menu_chats) {
                     //Chats item clicked, show fragment
                     if(firebaseAuth.getCurrentUser() == null) {
                         Utils.toast(MainActivity.this, "Login Required");
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
 
-                } else if(itemId == R.id.menu_my_ads) {
+                }*/ else if(itemId == R.id.menu_my_ads) {
                     //My Ads item clicked, show fragment
                     if(firebaseAuth.getCurrentUser() == null) {
                         Utils.toast(MainActivity.this, "Login Required");
@@ -90,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
 
+                } else if(itemId == R.id.menu_logout) {
+                    if(firebaseAuth.getCurrentUser() == null) {
+                        // Already logged out
+                        return false;
+                    } else {
+                        logoutPopup();
+                        return true;
+                    }
+
                 } else {
                     return false;
                 }
@@ -100,14 +111,19 @@ public class MainActivity extends AppCompatActivity {
         binding.sellFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-                    startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
-                    // Below is for Edit button
+                if(firebaseAuth.getCurrentUser() == null) {
+                    Utils.toast(MainActivity.this, "Login Required");
+                    startLoginOptions();
+                } else {
+                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
+                        // Below is for Edit button
 //                    Intent intent = new Intent(MainActivity.this, AdCreateActivity.class);
 //                    intent.putExtra("isEditMode", false);
 //                    startActivity(intent);
-                } else {
-                    Utils.toast(MainActivity.this, "Verify Account First");
+                    } else {
+                        Utils.toast(MainActivity.this, "Verify Account First");
+                    }
                 }
             }
         });
@@ -123,16 +139,16 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "HomeFragment");
         fragmentTransaction.commit();
     }
-    private void showChatsFragment(){
-        //change toolbar textView text/title to Chats
-//        binding. toolbarTitleTv.setText("Chats");
-
-        //Show ChatsFragment
-        ChatsFragment fragment = new ChatsFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "ChatsFragment");
-        fragmentTransaction.commit();
-    }
+//    private void showChatsFragment(){
+//        //change toolbar textView text/title to Chats
+//      binding. toolbarTitleTv.setText("Chats");
+//
+//        //Show ChatsFragment
+//        ChatsFragment fragment = new ChatsFragment();
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "ChatsFragment");
+//        fragmentTransaction.commit();
+//    }
     private void showMyAdsFragment(){
         //change toolbar textView text/title to My Ads
 //        binding.toolbarTitleTv.setText("My Ads");
@@ -154,7 +170,27 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
+    private void logoutPopup(){
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
+        materialAlertDialogBuilder.setTitle("Log Out")
+                .setMessage("Are you sure you want to Log Out?")
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Delete Clicked, delete Ad
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Cancel Clicked, dismiss dialog
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
     private void startLoginOptions() {
         startActivity(new Intent(this, LoginOptionsActivity.class));
     }

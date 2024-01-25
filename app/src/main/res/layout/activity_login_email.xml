@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginEmailActivity"
     android:background="@color/Navy">
 
     <RelativeLayout
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/m_toolbar_height">
 
-        <!--ImageButton: Click to go-back-->
+        <!-- Back Button: Click to go back -->
         <ImageButton
             android:id="@+id/toolbarBackBtn"
             android:layout_width="wrap_content"
@@ -20,9 +20,10 @@
             android:src="@drawable/ic_back"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:contentDescription="Back Button" />
 
-        <!--TextView: Toolbar Title-->
+        <!-- TextView: Toolbar Title -->
         <TextView
             android:id="@+id/toolbarTitleTv"
             style="@style/TextAppearance.MaterialComponents.Body1"
@@ -31,20 +32,18 @@
             android:layout_centerInParent="true"
             android:text="Login"
             android:textColor="@color/colorGray01"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:background="@color/colorGray02"
-            android:alpha="0.1"/>
-
-
+            android:alpha="0.1" />
 
     </RelativeLayout>
 
-    <!--ImageView: Show App Logo-->
+    <!-- ImageView: Show App Logo -->
     <ImageView
         android:id="@+id/LoginPageLogo"
         android:layout_width="wrap_content"
@@ -53,16 +52,13 @@
         android:src="@drawable/logo"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
-        android:layout_marginTop="@dimen/m_toolbar_height"/>
-
+        android:layout_marginTop="@dimen/m_toolbar_height" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LoginPageLogo"
         android:layout_alignParentBottom="true">
-
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -71,8 +67,7 @@
             app:cardCornerRadius="28dp"
             android:layout_marginBottom="-20dp"
             android:id="@+id/card_view"
-            app:cardBackgroundColor="@color/Green"
-            >
+            app:cardBackgroundColor="@color/Green">
 
             <RelativeLayout
                 android:layout_below="@+id/toolbarRl"
@@ -89,7 +84,7 @@
                     android:textColor="@color/Navy"
                     android:textSize="30sp"
                     android:layout_marginTop="10dp"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailTil"
@@ -110,10 +105,9 @@
                         android:id="@+id/emailEt"
                         android:layout_width="match_parent"
                         android:inputType="textEmailAddress"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordTil"
@@ -134,11 +128,9 @@
                         android:id="@+id/passwordEt"
                         android:layout_width="match_parent"
                         android:inputType="textPassword"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
-
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginBtn"
@@ -146,24 +138,35 @@
                     android:textColor="@color/Green"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="10dp"
                     android:textAllCaps="false"
                     android:layout_below="@+id/passwordTil"
                     android:minHeight="@dimen/m_button_height"
-                    android:backgroundTint="@color/Navy"/>
+                    android:backgroundTint="@color/Navy" />
 
+                <TextView
+                    android:id="@+id/forgotPasswordTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/loginBtn"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Forgot Password?"
+                    android:textColor="@color/Navy"
+                    android:layout_centerHorizontal="true" />
 
                 <TextView
                     android:id="@+id/noAccountTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/loginBtn"
+                    android:layout_below="@id/forgotPasswordTv"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="70dp"
                     android:text="@string/don_t_have_an_account_register"
-                    android:textColor="@color/Navy"/>
+                    android:textColor="@color/Navy" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </RelativeLayout>
+

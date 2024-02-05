@@ -64,7 +64,7 @@ public class LoginEmailActivity extends AppCompatActivity {
 
         // handle's Don't have an account, Register
         // Tv = TextView
-        binding.noAccountTv.setOnClickListener(new View.OnClickListener() {
+        binding.noAccSignUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginEmailActivity.this, RegisterEmailActivity.class));

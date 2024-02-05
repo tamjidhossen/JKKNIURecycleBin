@@ -161,18 +161,43 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="Forgot Password?"
+                    android:textStyle="bold|italic"
                     android:textColor="@color/Navy"
                     android:layout_centerHorizontal="true" />
 
                 <TextView
-                    android:id="@+id/noAccountTv"
+                    android:id="@+id/orLineTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/forgotPasswordTv"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="70dp"
-                    android:text="@string/don_t_have_an_account_register"
-                    android:textColor="@color/Navy" />
+                    android:layout_below="@+id/forgotPasswordTv"
+                    android:layout_marginTop="30dp"
+                    android:text="------------------------------------ or ------------------------------------"
+                    android:textStyle="italic"
+                    android:textColor="@color/Navy"
+                    android:layout_centerHorizontal="true" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/noAccSignUpBtn"
+                    android:text="Sign Up"
+                    android:textColor="@color/Green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:textAllCaps="false"
+                    android:layout_below="@+id/orLineTv"
+                    android:minHeight="@dimen/m_button_height"
+                    android:backgroundTint="@color/Navy" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/noAccountTv"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/forgotPasswordTv"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginBottom="70dp"-->
+<!--                    android:text="@string/don_t_have_an_account_register"-->
+<!--                    android:textColor="@color/Navy" />-->
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

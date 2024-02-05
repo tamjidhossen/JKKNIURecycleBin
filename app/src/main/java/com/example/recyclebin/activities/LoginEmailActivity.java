@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -13,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.ActivityLoginEmailBinding;
 import com.example.recyclebin.databinding.ActivityLoginOptionsBinding;
 import com.google.android.gms.tasks.OnFailureListener;

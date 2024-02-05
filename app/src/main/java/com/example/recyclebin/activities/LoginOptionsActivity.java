@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

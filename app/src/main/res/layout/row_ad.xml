@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app= "http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <!--ShapeableImageView: Show first image from images of Ad-->
+        <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageIv"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        app:shapeAppearanceOverlay="@style/ImageStyle_Corners_Rounded"
+        android:background="@color/colorGray02"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_image_gray"/>
+
+        <!--TextView: Ad Title-->
+        <TextView
+            android:id="@+id/titleTv"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/imageIv"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:maxWidth="160dp"
+            android:text="The Ad Title"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!--TextView: Show date of the Ad when added-->
+        <TextView
+            android:id="@+id/dateTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:layout_toEndOf="@id/imageIv"
+            android:text="dd/MM/yyyy"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@id/titleTv"/>
+
+        <!--TextView: Owner of the Ad-->
+        <TextView
+            android:id="@+id/ownerAdNameTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/priceSymbolTv"
+            android:layout_toStartOf="@+id/priceSymbolTv"
+            android:layout_toEndOf="@id/imageIv"
+            android:text="Owner Name"
+            android:textStyle = "italic"
+            android:textColor="@color/DarkGreen"
+            android:textSize="12sp" />
+
+        <!--ImageButton: Ad/Remove the Ad to/from favourite-->
+        <ImageButton
+            android:id="@+id/favBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-10dp"
+            android:background="@android:color/transparent"
+            android:padding="15dp"
+            android:src="@drawable/ic_fav_no" />
+
+        <!--TextView: Show price of the product-->
+        <TextView
+            android:id="@+id/priceSymbolTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/favBtn"
+            android:layout_toStartOf="@+id/priceTv"
+            android:layout_marginTop="47dp"
+            android:layout_marginRight="5dp"
+            android:text="Tk."
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/priceTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/favBtn"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:text="00"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

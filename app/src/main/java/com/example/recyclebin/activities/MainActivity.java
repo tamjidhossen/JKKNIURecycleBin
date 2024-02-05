@@ -1,20 +1,25 @@
-package com.example.recyclebin;
+package com.example.recyclebin.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.recyclebin.fragments.ChatsFragment;
+import com.example.recyclebin.fragments.HomeFragment;
+import com.example.recyclebin.fragments.MyAdsFragment;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.ActivityMainBinding;
+import com.example.recyclebin.fragments.AccountFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.Firebase;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.internal.Util;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,19 +57,18 @@ public class MainActivity extends AppCompatActivity {
                     //home item clicked, show fragment
                     showHomeFragment();
                     return true;
-                } else if(itemId == R.id.menu_chats) {
+                } /*else if(itemId == R.id.menu_chats) {
                     //Chats item clicked, show fragment
                     if(firebaseAuth.getCurrentUser() == null) {
                         Utils.toast(MainActivity.this, "Login Required");
                         startLoginOptions();
-
                         return false;
                     } else {
                         showChatsFragment();
                         return true;
                     }
 
-                } else if(itemId == R.id.menu_my_ads) {
+                }*/ else if(itemId == R.id.menu_my_ads) {
                     //My Ads item clicked, show fragment
                     if(firebaseAuth.getCurrentUser() == null) {
                         Utils.toast(MainActivity.this, "Login Required");
@@ -88,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
 
+                } else if(itemId == R.id.menu_logout) {
+                    if(firebaseAuth.getCurrentUser() == null) {
+                        // Already logged out
+                        return false;
+                    } else {
+                        logoutPopup();
+                        return true;
+                    }
+
                 } else {
                     return false;
                 }
@@ -98,14 +111,27 @@ public class MainActivity extends AppCompatActivity {
         binding.sellFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
+                if(firebaseAuth.getCurrentUser() == null) {
+                    Utils.toast(MainActivity.this, "Login Required");
+                    startLoginOptions();
+                } else {
+                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        startActivity(new Intent(MainActivity.this, AdCreateActivity.class));
+                        // Below is for Edit button
+//                    Intent intent = new Intent(MainActivity.this, AdCreateActivity.class);
+//                    intent.putExtra("isEditMode", false);
+//                    startActivity(intent);
+                    } else {
+                        Utils.toast(MainActivity.this, "Verify Account First");
+                    }
+                }
             }
         });
     }
 
     private void showHomeFragment() {
         //change toolbar textView text/title to Home
-        binding. toolbarTitleTv.setText ("Home");
+//        binding. toolbarTitleTv.setText ("Home");
 
         //Show HomeFragment
         HomeFragment fragment = new HomeFragment();
@@ -113,19 +139,19 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "HomeFragment");
         fragmentTransaction.commit();
     }
-    private void showChatsFragment(){
-        //change toolbar textView text/title to Chats
-        binding. toolbarTitleTv.setText("Chats");
-
-        //Show ChatsFragment
-        ChatsFragment fragment = new ChatsFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "ChatsFragment");
-        fragmentTransaction.commit();
-    }
+//    private void showChatsFragment(){
+//        //change toolbar textView text/title to Chats
+//      binding. toolbarTitleTv.setText("Chats");
+//
+//        //Show ChatsFragment
+//        ChatsFragment fragment = new ChatsFragment();
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "ChatsFragment");
+//        fragmentTransaction.commit();
+//    }
     private void showMyAdsFragment(){
         //change toolbar textView text/title to My Ads
-        binding.toolbarTitleTv.setText("My Ads");
+//        binding.toolbarTitleTv.setText("My Ads");
 
         //Show MyAdsFragment
         MyAdsFragment fragment = new MyAdsFragment();
@@ -135,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showAccountFragment(){
         //change toolbar textView text/title to Account
-        binding. toolbarTitleTv.setText ("Account");
+//        binding. toolbarTitleTv.setText ("Account");
 
         //Show AccountFragment
         AccountFragment fragment = new AccountFragment();
@@ -144,7 +170,27 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
+    private void logoutPopup(){
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
+        materialAlertDialogBuilder.setTitle("Log Out")
+                .setMessage("Are you sure you want to Log Out?")
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Delete Clicked, delete Ad
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Cancel Clicked, dismiss dialog
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
     private void startLoginOptions() {
         startActivity(new Intent(this, LoginOptionsActivity.class));
     }
@@ -160,11 +206,10 @@ public class MainActivity extends AppCompatActivity {
 * 5) Handle Bottom Navigation Menu item click in MainActivity.java
 * 6) Create Required Fragments to show on clicking Bottom Navigation Menu
 * 7) Fragment Navigation
-* 8) Create Login Options Activity
-* 9) Add Login Options e.g. Google, Phone, Email*/
+* 8) Create Login Options Activity*/
 
 /*Steps - 2
- * 1) Enable Authentication Methods (Email) on Firebase
+ * 1) Enable Authentication Method (Email) on Firebase
  * 2) Add Permission Internet in Android Manifest
  * 3) Create Login Register Activities
  * 4) Login UI
@@ -179,10 +224,46 @@ public class MainActivity extends AppCompatActivity {
 * 04) Create the Activity ProfileEditActivity
 * 05) Edit Profile UI (activity_profile.xml)
 * 06) Edit Profile Coding (ProfileEditActivity.java)
-* 07) Setup Firebase Storage. Rules: Every one can read but only signed in users can write
-* 08) Test*/
+* 07) Setup Firebase Storage. Rules: Every one can read but only signed in users can write*/
 
 /*Steps - 4
  * 01) Verify Account UI
- * 02) Verify Account Code
- * 03) Test*/
+ * 02) Verify Account Code*/
+
+/*Steps - 5
+* 01) AdCreateActivity Create/Start
+* 02) Create Ad UI
+* 03) Create Ad Logic */
+
+/*Steps - 6
+* 01) Ads UI - fragment_home.xml
+* 02) Ad Category UI - row_category_home.xml
+* 03) Create Model (ModelCategoryHome) Class for Ad Categories List to show in RecyclerView (Horizontal)
+* 04) Create Custom Adapter (AdapterCategory) Class for Ad Categories List to show in RecyclerView (Horizontal)
+* 05) Create interface (RvListenerCategory) to handle Ad Category click event in Fragment (HomeFragment) instead of Adapter (AdapterCategory) Class
+* 06) Show Ads UI - row_ad.xml
+* 07) Create Model (ModelAd) Class for Ads List to show in RecyclerView
+* 08) Create Custom Adapter (AdapterAd) Class for Ads List to show in RecyclerView
+* 09) Create Filter (FilterAd) Class to search Ads
+* 10) Code logic in - HomeFragment.java*/
+
+/*Steps - 7
+* 01) Check/Add/Remove the Ad to/from favorite
+* 82) Create MyAdsFragment Fragment for Tabs e.g. My Ads & Favourites
+* 83) My Ads Tabs - UI & Code
+* 85) Create/Setup MyAdsAdsFragment & MyAdsFavoriteFragment
+* 86) My Ads - UI & Code
+* 08) Favorites UI & Code*/
+
+/*Steps - 8
+* 01) Create/Start AdDetailsActivity
+* 02) Ad Details - UI
+* 03) Load the Ad Details
+        03.1) row_image_slider
+        03.2) ModelImageSlider
+        03.3) AdapterImageSlider
+* 04) Load the Seller Info*/
+
+/*Steps - 9
+* 01) Edit Ad button click handle
+* 02) Mark as sold*/

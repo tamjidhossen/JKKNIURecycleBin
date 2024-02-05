@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".activities.LoginEmailActivity"
     android:background="@color/Navy">
 
     <RelativeLayout
@@ -41,6 +42,8 @@
             android:background="@color/colorGray02"
             android:alpha="0.1" />
 
+
+
     </RelativeLayout>
 
     <!-- ImageView: Show App Logo -->
@@ -54,11 +57,14 @@
         android:adjustViewBounds="true"
         android:layout_marginTop="@dimen/m_toolbar_height" />
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LoginPageLogo"
         android:layout_alignParentBottom="true">
+
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -84,7 +90,7 @@
                     android:textColor="@color/Navy"
                     android:textSize="30sp"
                     android:layout_marginTop="10dp"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1" />
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailTil"
@@ -105,9 +111,10 @@
                         android:id="@+id/emailEt"
                         android:layout_width="match_parent"
                         android:inputType="textEmailAddress"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordTil"
@@ -128,9 +135,11 @@
                         android:id="@+id/passwordEt"
                         android:layout_width="match_parent"
                         android:inputType="textPassword"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginBtn"

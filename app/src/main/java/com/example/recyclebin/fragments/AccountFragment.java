@@ -1,4 +1,4 @@
-package com.example.recyclebin;
+package com.example.recyclebin.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.example.recyclebin.activities.MainActivity;
+import com.example.recyclebin.activities.ProfileEditActivity;
+import com.example.recyclebin.R;
+import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.FragmentAccountBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,17 +70,17 @@ public class AccountFragment extends Fragment {
 
         loadMyInfo();
 
-        //handle logoutBtn click, logout user and start MainActivity
-        binding.logoutCv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //logout user
-                firebaseAuth.signOut();
-                //start MainActivity
-                startActivity(new Intent(mContext, MainActivity.class));
-                getActivity().finishAffinity();
-            }
-        });
+//        //handle logoutBtn click, logout user and start MainActivity
+//        binding.logoutCv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //logout user
+//                firebaseAuth.signOut();
+//                //start MainActivity
+//                startActivity(new Intent(mContext, MainActivity.class));
+//                getActivity().finishAffinity();
+//            }
+//        });
 
         binding.editProfileCv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +93,37 @@ public class AccountFragment extends Fragment {
         binding.verifyAccountCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyAccount();
+
+//Reference of current user info in Firebase Realtime Database to get user info
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Users");
+                ref.child(firebaseAuth.getUid())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                //get user info, spelling should be same in firebase realtime database
+                                String name = ""+ snapshot.child("name").getValue();
+                                String dept = ""+ snapshot.child("dept").getValue();
+                                String session = ""+ snapshot.child("session").getValue();
+                                String phoneNumber = ""+ snapshot.child("phoneNumber") .getValue();
+
+                                if(name.isEmpty() || dept.isEmpty() || session.isEmpty() || phoneNumber.isEmpty()) {
+                                    Utils.toast(mContext, "Complete profile info");
+                                    startActivity(new Intent(mContext, ProfileEditActivity.class));
+                                    return;
+                                } else {
+                                    verifyAccount();
+                                }
+
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
             }
         });
     }
+
 
     private void loadMyInfo() {
 
@@ -143,7 +174,7 @@ public class AccountFragment extends Fragment {
                             //Verified
                             binding.verifyAccountCv.setVisibility(View.GONE);
                             binding.verificationTv.setText("Verified");
-                            binding.verificationTv.setTextColor(getResources().getColor(R.color.Green));
+                            binding.verificationTv.setTextColor(getResources().getColor(R.color.DarkGreen));
                         } else {
                             //Not verified
                             binding.verifyAccountCv.setVisibility(View.VISIBLE);

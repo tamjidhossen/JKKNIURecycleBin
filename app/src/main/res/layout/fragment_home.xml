@@ -430,18 +430,5 @@
             app:layout_constraintTop_toBottomOf="@id/catNameTv"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/row_ad" />
-
-
-
-
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
 </androidx.core.widget.NestedScrollView>

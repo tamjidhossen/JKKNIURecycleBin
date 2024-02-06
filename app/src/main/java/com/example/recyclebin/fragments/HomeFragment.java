@@ -11,9 +11,12 @@ import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.example.recyclebin.models.ModelAd;
 import com.example.recyclebin.models.ModelCategoryHome;
@@ -74,6 +77,9 @@ public class HomeFragment extends Fragment {
         //load all ads
         loadAds("All");
 
+        // search box is one line only
+        binding.searchEt.setSingleLine(true);
+
         binding.searchEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,7 +108,7 @@ public class HomeFragment extends Fragment {
         ArrayList<ModelCategoryHome> categoryArrayList = new ArrayList<>();
 
         //ModelCategory instance to show all products
-        ModelCategoryHome modelCategoryAll = new ModelCategoryHome ("ALl", R.drawable.ic_category_all);
+        ModelCategoryHome modelCategoryAll = new ModelCategoryHome ("All", R.drawable.ic_category_all);
         categoryArrayList.add(modelCategoryAll);
 
         //get categories from Utils class and add in categoryArraylist

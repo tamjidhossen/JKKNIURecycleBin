@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -156,6 +157,41 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
 
+//        binding.callBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(firebaseAuth.getCurrentUser() == null) {
+//                    Utils.toast(AdDetailsActivity.this, "Login Required");
+//                } else {
+//                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+//                        // implement call button action
+//                    } else {
+//                        Utils.toast(AdDetailsActivity.this, "Verify Account First");
+//                    }
+//                }
+//
+//            }
+//        });
+
+
+
+//        binding.smsBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(firebaseAuth.getCurrentUser() == null) {
+//                    Utils.toast(AdDetailsActivity.this, "Login Required");
+//                } else {
+//                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
+//                        // implement sms button action
+//                    } else {
+//                        Utils.toast(AdDetailsActivity.this, "Verify Account First");
+//                    }
+//                }
+//            }
+//        });
+
+
+        // Method to initiate a phone call
         binding.callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,15 +199,37 @@ public class AdDetailsActivity extends AppCompatActivity {
                     Utils.toast(AdDetailsActivity.this, "Login Required");
                 } else {
                     if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-                        // implement call button action
+                        // Get the seller's phone number
+                        if (sellerPhone != null && !sellerPhone.isEmpty()) {
+                            // Intent to initiate a call
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:" + sellerPhone));
+
+                            // Check if there is an app to handle the intent
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+                                // Start the activity to make a call
+                                startActivity(intent);
+                            } else {
+                                Utils.toast(AdDetailsActivity.this, "No app to handle calls");
+                            }
+                        } else {
+                            Utils.toast(AdDetailsActivity.this, "Seller's phone number not available");
+                        }
                     } else {
                         Utils.toast(AdDetailsActivity.this, "Verify Account First");
                     }
                 }
-
             }
         });
 
+
+
+
+
+
+
+
+// Handle smsBtn click, make a sms
         binding.smsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,13 +237,30 @@ public class AdDetailsActivity extends AppCompatActivity {
                     Utils.toast(AdDetailsActivity.this, "Login Required");
                 } else {
                     if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-                        // implement sms button action
+                        // Get the seller's phone number
+                        if (sellerPhone != null && !sellerPhone.isEmpty()) {
+                            // Intent to send an SMS
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", sellerPhone, null));
+                            intent.putExtra("sms_body", "Hello, I'm interested in your ad. Can you provide more information?");
+
+                            // Check if there is an app to handle the intent
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+                                // Start the activity to send an SMS
+                                startActivity(intent);
+                            } else {
+                                Utils.toast(AdDetailsActivity.this, "No app to handle SMS");
+                            }
+                        } else {
+                            Utils.toast(AdDetailsActivity.this, "Seller's phone number not available");
+                        }
                     } else {
                         Utils.toast(AdDetailsActivity.this, "Verify Account First");
                     }
                 }
             }
         });
+
+
 
     }
 

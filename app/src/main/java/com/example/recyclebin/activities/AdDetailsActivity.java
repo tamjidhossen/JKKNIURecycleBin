@@ -157,39 +157,6 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
 
-//        binding.callBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(firebaseAuth.getCurrentUser() == null) {
-//                    Utils.toast(AdDetailsActivity.this, "Login Required");
-//                } else {
-//                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-//                        // implement call button action
-//                    } else {
-//                        Utils.toast(AdDetailsActivity.this, "Verify Account First");
-//                    }
-//                }
-//
-//            }
-//        });
-
-
-
-//        binding.smsBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(firebaseAuth.getCurrentUser() == null) {
-//                    Utils.toast(AdDetailsActivity.this, "Login Required");
-//                } else {
-//                    if(firebaseAuth.getCurrentUser().isEmailVerified()) {
-//                        // implement sms button action
-//                    } else {
-//                        Utils.toast(AdDetailsActivity.this, "Verify Account First");
-//                    }
-//                }
-//            }
-//        });
-
 
         // Method to initiate a phone call
         binding.callBtn.setOnClickListener(new View.OnClickListener() {
@@ -223,13 +190,7 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-// Handle smsBtn click, make a sms
+        // Handle smsBtn click, make a sms
         binding.smsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

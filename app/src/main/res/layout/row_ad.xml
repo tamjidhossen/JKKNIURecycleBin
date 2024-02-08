@@ -40,6 +40,8 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
+
+
         <!--TextView: Show date of the Ad when added-->
         <TextView
             android:id="@+id/dateTv"
@@ -52,6 +54,21 @@
             android:text="dd/MM/yyyy"
             android:layout_marginEnd="10dp"
             android:layout_below="@id/titleTv"/>
+
+
+        <!-- TextView: Show if the product is sold -->
+        <TextView
+            android:id="@+id/soldStatusTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleTv"
+            android:layout_toEndOf="@id/imageIv"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="12sp"
+            android:textColor="@color/colorDarkGray01" />
+
 
         <!--TextView: Owner of the Ad-->
         <TextView
@@ -66,6 +83,8 @@
             android:textStyle = "italic"
             android:textColor="@color/DarkGreen"
             android:textSize="12sp" />
+
+
 
         <!--ImageButton: Ad/Remove the Ad to/from favourite-->
         <ImageButton

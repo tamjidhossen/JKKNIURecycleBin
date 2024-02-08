@@ -90,6 +90,22 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         Long timestamp = modelAd.getTimestamp();
         String formattedDate = Utils.formatTimestampDate(timestamp);
 
+
+        //sold status .......................... (95 to 107)
+        TextView statusTv = holder.itemView.findViewById(R.id.soldStatusTv);
+        statusTv.setText("Status: " + modelAd.getStatus());
+
+        // if you want stay available this code need not
+        String status = modelAd.getStatus();
+        TextView soldStatusTv = holder.itemView.findViewById(R.id.soldStatusTv);
+        if ("sold".equalsIgnoreCase(status)) {
+            // If sold, make the "Sold" label visible
+            soldStatusTv.setVisibility(View.VISIBLE);
+        } else {
+            // If not sold, hide the "Sold" label
+            soldStatusTv.setVisibility(View.GONE);
+        }
+
         //function call: load first image from available images of Ad e.g. if there are 5 images of Ad, load first one
         loadAdFirstImage(modelAd, holder);
 

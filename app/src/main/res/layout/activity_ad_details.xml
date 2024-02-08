@@ -32,7 +32,7 @@
             android:layout_centerInParent="true" />
 
         <!-- ImageButton: Delete the Ad (show this button only if the Ad is selected) -->
-        <ImageButton
+<!--        <ImageButton
             android:id="@+id/toolbarDeleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,22 +41,24 @@
             app:tint="@color/white"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:padding="15dp" />
+            android:padding="15dp" />-->
 
         <!-- ImageButton: Edit the Ad (show this button only if the Ad is by the current user) -->
-<!--        <ImageButton-->
-<!--            android:id="@+id/toolbarEditBtn"-->
-<!--            app:tint="@color/white"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_edit_gray"-->
-<!--            android:layout_toStartOf="@id/toolbarFavBtn"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            android:padding="15dp" />-->
+        <ImageButton
+            android:id="@+id/toolbarEditBtn"
+            app:tint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_gray"
+            android:layout_toStartOf="@id/toolbarFavBtn"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="15dp" />
+
+
 
         <!-- ImageButton: Add/Remove the Ad to/from favorite -->
-        <ImageButton
+          <ImageButton
             android:id="@+id/toolbarFavBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,6 +105,17 @@
                 android:layout_marginTop="10dp"
                 android:textSize="25sp"
                 android:maxLines="3"/>
+
+
+            <!-- textview: show sold or not -->
+           <!-- <TextView
+                android:id="@+id/soldStatusTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sold"
+                android:visibility="gone"
+                /> -->
+
 
             <!-- TextView: Show the Price Symbol -->
             <TextView
@@ -235,6 +248,22 @@
                 app:cornerRadius="8dp"
                 app:icon="@drawable/ic_chat_white"/>
 
+            <!-- MaterialButton: Show sold or not  -->
+           <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locationIcon"
+                android:id="@+id/soldStatusTv"
+                android:layout_weight="1"
+                android:text="Sold"
+                android:visibility="visible"
+                android:backgroundTint="@color/DarkGreen"
+                android:textSize="14sp"
+                app:cornerRadius="8dp"
+                android:minHeight="@dimen/m_button_height"
+                android:layout_toRightOf="@id/smsBtn"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"/>
 
 
             <!-- CardView: Seller Info e.g. name, profile image, member since date -->

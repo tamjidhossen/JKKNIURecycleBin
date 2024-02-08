@@ -136,4 +136,8 @@ public class ModelAd {
     public void setFavorite(boolean favorite){
             this.favorite = favorite;
     }
+    public String getStatus() {
+        return status;
+    }
+
 }

@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,7 +34,7 @@ import java.util.HashMap;
 public class AdDetailsActivity extends AppCompatActivity {
     // View Binding
     private ActivityAdDetailsBinding binding;
-    private TextView soldStatusTv;
+
     // Log tag for logs in logcat
     private static final String TAG = "AD_DETAILS_TAG";
 
@@ -63,12 +62,10 @@ public class AdDetailsActivity extends AppCompatActivity {
         binding = ActivityAdDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        soldStatusTv = findViewById(R.id.soldStatusTv);
         // Hide some UI views at the start.
         // We will show the Edit, Delete option if the user is Ad owner.
-          binding.toolbarEditBtn.setVisibility(View.GONE);
-//        binding.toolbarDeleteBtn.setVisibility(View.GONE);
+//        binding.toolbarEditBtn.setVisibility(View.GONE);
+        binding.toolbarDeleteBtn.setVisibility(View.GONE);
 //        binding.chatBtn.setVisibility(View.GONE);
 //        binding.callBtn.setVisibility(View.GONE);
 //        binding.smsBtn.setVisibility(View.GONE);
@@ -97,45 +94,39 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Handle toolbarDeleteBtn click, delete Ad
-//        binding.toolbarDeleteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Alert dialog to confirm if the user really wants to delete the Ad
-//                MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(AdDetailsActivity.this);
-//                materialAlertDialogBuilder.setTitle("Delete Ad")
-//                        .setMessage("Are you sure you want to delete this Ad?")
-//                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // Delete Clicked, delete Ad
-//                                deleteAd();
-//                            }
-//                        })
-//                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // Cancel Clicked, dismiss dialog
-//                                dialog.dismiss();
-//                            }
-//                        })
-//                        .show();
-//            }
-//        });
-
-
-
-
-
-        // Handle toolbarEditBtn click, start AdCreateActivity to edit this Ad
-        binding.toolbarEditBtn.setOnClickListener(new View.OnClickListener() {
+        binding.toolbarDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editOptions();
+                // Alert dialog to confirm if the user really wants to delete the Ad
+                MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(AdDetailsActivity.this);
+                materialAlertDialogBuilder.setTitle("Delete Ad")
+                        .setMessage("Are you sure you want to delete this Ad?")
+                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Delete Clicked, delete Ad
+                                deleteAd();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Cancel Clicked, dismiss dialog
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
+
+        // Handle toolbarEditBtn click, start AdCreateActivity to edit this Ad
+//        binding.toolbarEditBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editOptions();
+//            }
+//        });
 
         // Handle toolbarFavBtn click, add/remove favorite
         binding.toolbarFavBtn.setOnClickListener(new View.OnClickListener() {
@@ -165,8 +156,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
 
         // Method to initiate a phone call
@@ -201,8 +190,7 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
 
 
-
-// Handle smsBtn click, make a sms
+        // Handle smsBtn click, make a sms
         binding.smsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,93 +221,93 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     // Edit Option for Ads and Mark as sold
-    private void editOptions() {
-        Log.d(TAG, "editOptions: ");
+//    private void editOptions() {
+//        Log.d(TAG, "editOptions: ");
+//
+//        // Init/setup popup menu
+//        PopupMenu popupMenu = new PopupMenu(this, binding.toolbarEditBtn);
+//
+//        // Add menu items to PopupMenu with params Group ID, Item ID, Order, Title
+//        popupMenu.getMenu().add(Menu.NONE, 0, 0, "Edit");
+//        popupMenu.getMenu().add(Menu.NONE, 1, 1, "Mark As Sold");
+//
+//        // Show popup menu
+//        popupMenu.show();
+//
+//        // Handle popup menu item click
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                // Get id of the menu item clicked
+//                int itemId = item.getItemId();
+//
+//                if (itemId == 0) {
+//                    // Edit Clicked, start the AdCreateActivity with Ad Id and isEditMode as true
+//                    Intent intent = new Intent(AdDetailsActivity.this, AdCreateActivity.class);
+//                    intent.putExtra("isEditMode", true);
+//                    intent.putExtra("adId", adId);
+//                    startActivity(intent);
+//                } else if (itemId == 1) {
+//                    // Mark As Sold
+//                    showMarkAsSoldDialog();
+//                }
+//                return true;
+//            }
+//        });
+//    }
 
-        // Init/setup popup menu
-        PopupMenu popupMenu = new PopupMenu(this, binding.toolbarEditBtn);
 
-        // Add menu items to PopupMenu with params Group ID, Item ID, Order, Title
-        popupMenu.getMenu().add(Menu.NONE, 0, 0, "Edit");
-        popupMenu.getMenu().add(Menu.NONE, 1, 1, "Mark As Sold");
-
-        // Show popup menu
-        popupMenu.show();
-
-        // Handle popup menu item click
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                // Get id of the menu item clicked
-                int itemId = item.getItemId();
-
-                if (itemId == 0) {
-                    // Edit Clicked, start the AdCreateActivity with Ad Id and isEditMode as true
-                    Intent intent = new Intent(AdDetailsActivity.this, AdCreateActivity.class);
-                    intent.putExtra("isEditMode", true);
-                    intent.putExtra("adId", adId);
-                    startActivity(intent);
-                } else if (itemId == 1) {
-                    // Mark As Sold
-                    showMarkAsSoldDialog();
-                }
-                return true;
-            }
-        });
-    }
-
-
-    private void showMarkAsSoldDialog() {
-        // Material Alert Dialog - Setup and show
-        MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this);
-        alertDialogBuilder.setTitle("Mark as Sold")
-                .setMessage("Are you sure you want to mark this Ad as sold?")
-                .setPositiveButton("SOLD", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "onClick: Sold Clicked..");
-
-                        // Setup info to update in the existing Ad
-                        // Mark as sold by setting the value of status to SOLD
-                        HashMap<String, Object> hashMap = new HashMap<>();
-                        hashMap.put("status", "" + Utils.AD_STATUS_SOLD);
-
-                        // Ad's db path to update its available/sold status. Ads > AdId
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
-                        ref.child(adId).updateChildren(hashMap)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        // Success
-                                        Log.d(TAG, "onSuccess: Marked as sold");
-                                        Utils.toast(AdDetailsActivity.this, "Marked as sold");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Failure
-                                        Log.e(TAG, "onFailure: ", e);
-                                        Utils.toast(AdDetailsActivity.this,
-                                                "Failed to mark as sold due to " + e.getMessage());
-                                    }
-                                });
-                    }
-                })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "onClick: Cancel Clicked...");
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-
-    }
-
+//    private void showMarkAsSoldDialog() {
+//        // Material Alert Dialog - Setup and show
+//        MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this);
+//        alertDialogBuilder.setTitle("Mark as Sold")
+//                .setMessage("Are you sure you want to mark this Ad as sold?")
+//                .setPositiveButton("SOLD", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Log.d(TAG, "onClick: Sold Clicked..");
+//
+//                        // Setup info to update in the existing Ad
+//                        // Mark as sold by setting the value of status to SOLD
+//                        HashMap<String, Object> hashMap = new HashMap<>();
+//                        hashMap.put("status", "" + Utils.AD_STATUS_SOLD);
+//
+//                        // Ad's db path to update its available/sold status. Ads > AdId
+//                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+//                        ref.child(adId).updateChildren(hashMap)
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        // Success
+//                                        Log.d(TAG, "onSuccess: Marked as sold");
+//                                        Utils.toast(AdDetailsActivity.this, "Marked as sold");
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        // Failure
+//                                        Log.e(TAG, "onFailure: ", e);
+//                                        Utils.toast(AdDetailsActivity.this,
+//                                                "Failed to mark as sold due to " + e.getMessage());
+//                                    }
+//                                });
+//                    }
+//                })
+//                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Log.d(TAG, "onClick: Cancel Clicked...");
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .show();
+//    }
 
     private void loadAdDetails() {
         Log.d(TAG, "LoadAdDetails: ");
@@ -352,13 +340,13 @@ public class AdDetailsActivity extends AppCompatActivity {
                             if (sellerUid != null && sellerUid.equals(firebaseAuth.getUid())) {
                                 // Ad is created by currently signed-in user
                                 // 1) Should be able to edit and delete Ad
-                                binding.toolbarEditBtn.setVisibility(View.VISIBLE);
-                                //binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
+//                                binding.toolbarEditBtn.setVisibility(View.VISIBLE);
+                                binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
                             } else {
                                 // Ad is not created by currently signed-in user
                                 // 1) Shouldn't be able to edit and delete Ad
-                                binding.toolbarEditBtn.setVisibility(View.GONE);
-                                //binding.toolbarDeleteBtn.setVisibility(View.GONE);
+//                                binding.toolbarEditBtn.setVisibility(View.GONE);
+                                binding.toolbarDeleteBtn.setVisibility(View.GONE);
                             }
 
                             // Set data to UI Views
@@ -383,8 +371,6 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     // Method to load details of the seller from the Firebase Realtime Database
     private void loadSellerDetails() {
@@ -426,7 +412,6 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
     }
 
-
     // Method to check if the ad is marked as a favorite by the user
     private void checkIsFavorite() {
         Log.d(TAG, "checkIsFavorite: ");
@@ -454,7 +439,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     // Method to load images associated with the current ad from the Firebase Realtime Database
     private void loadAdImages() {
@@ -517,19 +501,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                         "Failed to delete due to " + e.getMessage());
             }
         });
-    }
-
-
-    // Add the following method to update soldStatusTv based on the product information
-    private void updateSoldStatus(boolean isSold) {
-        if (isSold) {
-            // If the product is sold, set the text accordingly
-            soldStatusTv.setText("Sold");
-            soldStatusTv.setVisibility(View.VISIBLE);
-        } else {
-            // If the product is not sold, hide the TextView
-            soldStatusTv.setVisibility(View.GONE);
-        }
     }
 }
 

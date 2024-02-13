@@ -94,7 +94,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//Reference of current user info in Firebase Realtime Database to get user info
+                //Reference of current user info in Firebase Realtime Database to get user info
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Users");
                 ref.child(firebaseAuth.getUid())
                         .addValueEventListener(new ValueEventListener() {
@@ -155,6 +155,10 @@ public class AccountFragment extends Fragment {
 
                         //format timestamp to dd/MM/yyyy
 //                        String formattedDate = Utils.formatTimestampDate(Long.parseLong(timestamp));
+
+                        if(snapshot.child("isAdmin").exists() == false) {
+                            binding.AdminStatus.setVisibility(View.GONE);
+                        }
 
                         //set data to UI
                         binding.emailTv.setText(email);

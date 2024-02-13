@@ -21,13 +21,27 @@
             android:src="@drawable/ic_person_white"
             app:shapeAppearanceOverlay="@style/ImageStyle_Circle"/>
 
+
+        <TextView
+            android:id="@+id/AdminStatus"
+            android:textColor="@color/DarkGreen"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileIv"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Admin"
+            android:textStyle="bold"/>
+
+
         <TextView
             android:id="@+id/nameLabelTv"
             android:textColor="@color/Navy"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileIv"
+            android:layout_below="@id/AdminStatus"
             android:layout_marginTop="20dp"
             android:text="Name"/>
 
@@ -36,7 +50,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileIv"
+            android:layout_below="@id/AdminStatus"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:text="Full Name"/>

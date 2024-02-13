@@ -153,23 +153,23 @@ public class Utils {
             // Remove data from the database: Users › vid › Favorites › adId
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid())
-                    .child("Favorites")
-                    .child(adId)
-                    .removeValue()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            // Success
-                            Utils.toast(context, "Removed from favorites");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Failed
-                            Utils.toast(context, "Failed to remove from favorites due to " + e.getMessage());
-                        }
-                    });
+                .child("Favorites")
+                .child(adId)
+                .removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // Success
+                        Utils.toast(context, "Removed from favorites");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed
+                        Utils.toast(context, "Failed to remove from favorites due to " + e.getMessage());
+                    }
+                });
         }
     }
 

@@ -42,6 +42,8 @@ public class AdDetailsActivity extends AppCompatActivity {
     // Firebase Auth for auth related tasks
     private FirebaseAuth firebaseAuth;
 
+    boolean sold = false;
+
     // Ad id, will get from intent
     private String adId = "";
 
@@ -68,10 +70,10 @@ public class AdDetailsActivity extends AppCompatActivity {
         // Hide some UI views at the start.
         // We will show the Edit, Delete option if the user is Ad owner.
           binding.toolbarEditBtn.setVisibility(View.GONE);
-//        binding.toolbarDeleteBtn.setVisibility(View.GONE);
-//        binding.chatBtn.setVisibility(View.GONE);
-//        binding.callBtn.setVisibility(View.GONE);
-//        binding.smsBtn.setVisibility(View.GONE);
+    //        binding.toolbarDeleteBtn.setVisibility(View.GONE);
+    //        binding.chatBtn.setVisibility(View.GONE);
+    //        binding.callBtn.setVisibility(View.GONE);
+    //        binding.smsBtn.setVisibility(View.GONE);
 
         // Get the id of the Ad (as passed in AdapterAd class while starting this activity)
         adId = getIntent().getStringExtra("adId");
@@ -175,7 +177,11 @@ public class AdDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(firebaseAuth.getCurrentUser() == null) {
                     Utils.toast(AdDetailsActivity.this, "Login Required");
-                } else {
+                }
+                else if(sold) {
+                    Utils.toast(AdDetailsActivity.this, "Item Sold");
+                }
+                else {
                     if(firebaseAuth.getCurrentUser().isEmailVerified()) {
                         // Get the seller's phone number
                         if (sellerPhone != null && !sellerPhone.isEmpty()) {
@@ -202,7 +208,7 @@ public class AdDetailsActivity extends AppCompatActivity {
 
 
 
-// Handle smsBtn click, make a sms
+        // Handle smsBtn click, make a sms
         binding.smsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -401,6 +407,11 @@ public class AdDetailsActivity extends AppCompatActivity {
                     String name = "" + snapshot.child("name").getValue();
                     String profileImageUrl = "" + snapshot.child("profileImageUrl").getValue();
                     String dept = "" + snapshot.child("dept").getValue();
+                    String soldStatus = "" + snapshot.child("status").getValue();
+
+                    if(soldStatus.equals("SOLD")) {
+                        sold = true;
+                    }
 
                     // Combine phone code and phone number to get the seller's phone
                     sellerPhone = phoneNumber;

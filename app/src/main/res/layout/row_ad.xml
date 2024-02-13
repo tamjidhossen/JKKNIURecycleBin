@@ -62,11 +62,12 @@
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/titleTv"
+            android:layout_below="@id/dateTv"
             android:layout_toEndOf="@id/imageIv"
-            android:layout_marginTop="20dp"
-            android:text=""
+            android:layout_marginTop="4dp"
+            android:text="AVAILABLE"
             android:textSize="12sp"
+            android:textStyle="italic"
             android:textColor="@color/colorDarkGray01" />
 
 
@@ -106,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/favBtn"
             android:layout_toStartOf="@+id/priceTv"
-            android:layout_marginTop="47dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="5dp"
             android:text="Tk."
             android:textSize="12sp" />
@@ -118,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/favBtn"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="53dp"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="20dp"

@@ -487,6 +487,7 @@ public class AdCreateActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         // Start uploading images picked for the Ad
                         uploadImagesStorage(adIdForEditing);
+                        onBackPressed();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

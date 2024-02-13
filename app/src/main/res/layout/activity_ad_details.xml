@@ -108,14 +108,28 @@
 
 
             <!-- textview: show sold or not -->
-           <!-- <TextView
+            <TextView
+                android:id="@+id/statusTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/titleTv"
+                android:layout_marginEnd="2dp"
+                android:text="Status: "/>
+
+            <TextView
                 android:id="@+id/soldStatusTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sold"
-                android:visibility="gone"
-                /> -->
-
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/titleTv"
+                android:layout_toEndOf="@id/statusTv"
+                android:layout_marginEnd="2dp"
+                android:text="Available"
+                android:textStyle="bold"
+                android:textColor="@color/DarkGreen"/>
 
             <!-- TextView: Show the Price Symbol -->
             <TextView
@@ -124,7 +138,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_marginTop="20dp"
-                android:layout_below="@id/titleTv"
+                android:layout_below="@id/soldStatusTv"
                 android:layout_marginEnd="2dp"
                 android:text="Tk "/>
 
@@ -137,7 +151,7 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_below="@id/titleTv"
+                android:layout_below="@id/soldStatusTv"
                 android:layout_toEndOf="@id/priceSymbolTv"
                 android:text="00"/>
 
@@ -147,7 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/titleTv"
+                android:layout_below="@id/soldStatusTv"
                 android:layout_centerHorizontal="true"
                 style="@style/TextAppearance.MaterialComponents.Overline"
                 android:text="Used"
@@ -161,7 +175,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
                 android:text="dd/MM/yyyy"
-                android:layout_below="@+id/titleTv"
+                android:layout_below="@+id/soldStatusTv"
                 android:layout_alignParentEnd="true" />
 
 
@@ -248,22 +262,22 @@
                 app:cornerRadius="8dp"
                 app:icon="@drawable/ic_chat_white"/>
 
-            <!-- MaterialButton: Show sold or not  -->
-           <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationIcon"
-                android:id="@+id/soldStatusTv"
-                android:layout_weight="1"
-                android:text="Sold"
-                android:visibility="visible"
-                android:backgroundTint="@color/DarkGreen"
-                android:textSize="14sp"
-                app:cornerRadius="8dp"
-                android:minHeight="@dimen/m_button_height"
-                android:layout_toRightOf="@id/smsBtn"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"/>
+<!--            &lt;!&ndash; MaterialButton: Show sold or not  &ndash;&gt;-->
+<!--           <com.google.android.material.button.MaterialButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/locationIcon"-->
+<!--                android:id="@+id/soldStatusTv"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Sold"-->
+<!--                android:visibility="visible"-->
+<!--                android:backgroundTint="@color/DarkGreen"-->
+<!--                android:textSize="14sp"-->
+<!--                app:cornerRadius="8dp"-->
+<!--                android:minHeight="@dimen/m_button_height"-->
+<!--                android:layout_toRightOf="@id/smsBtn"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginTop="30dp"/>-->
 
 
             <!-- CardView: Seller Info e.g. name, profile image, member since date -->

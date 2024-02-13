@@ -2,8 +2,11 @@ package com.example.recyclebin.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +34,7 @@ import com.example.recyclebin.models.ModelAd;
 import com.example.recyclebin.models.ModelImageSlider;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AdDetailsActivity extends AppCompatActivity {
     // View Binding
@@ -69,11 +73,7 @@ public class AdDetailsActivity extends AppCompatActivity {
         soldStatusTv = findViewById(R.id.soldStatusTv);
         // Hide some UI views at the start.
         // We will show the Edit, Delete option if the user is Ad owner.
-          binding.toolbarEditBtn.setVisibility(View.GONE);
-    //        binding.toolbarDeleteBtn.setVisibility(View.GONE);
-    //        binding.chatBtn.setVisibility(View.GONE);
-    //        binding.callBtn.setVisibility(View.GONE);
-    //        binding.smsBtn.setVisibility(View.GONE);
+        binding.toolbarEditBtn.setVisibility(View.GONE);
 
         // Get the id of the Ad (as passed in AdapterAd class while starting this activity)
         adId = getIntent().getStringExtra("adId");
@@ -340,7 +340,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                             ModelAd modelAd = snapshot.getValue(ModelAd.class);
 
                             // Get data from the model
-//                            sellerUid = modelAd.getUid();
+//                          sellerUid = modelAd.getUid();
                             sellerUid = snapshot.child("vid").getValue(String.class);
                             String title = modelAd.getTitle();
                             String description = modelAd.getDescription();
@@ -348,11 +348,20 @@ public class AdDetailsActivity extends AppCompatActivity {
                             String condition = modelAd.getCondition();
                             String price = modelAd.getPrice();
                             long timestamp = modelAd.getTimestamp();
+                            String isSold = modelAd.getStatus();
+                            Log.d(TAG, "IS_SOLD = " + isSold);
 
                             // Format date time e.g. timestamp to dd/MM/yyyy
                             String formattedDate = Utils.formatTimestampDate(timestamp);
 
                             Log.d(TAG, "Uid = " + sellerUid);
+
+                            //if item sold already
+                            if(Objects.equals(isSold, Utils.AD_STATUS_SOLD)) {
+                                binding.soldStatusTv.setText("Sold");
+                                int soldTextColor = ContextCompat.getColor(AdDetailsActivity.this, R.color.Red);
+                                binding.soldStatusTv.setTextColor(soldTextColor); // Set color from colors.xml
+                            }
 
                             // Check if the Ad is by the currently signed-in user
                             if (sellerUid != null && sellerUid.equals(firebaseAuth.getUid())) {
@@ -375,6 +384,8 @@ public class AdDetailsActivity extends AppCompatActivity {
                             binding.conditionTv.setText(condition);
                             binding.priceTv.setText(price);
                             binding.dateTv.setText(formattedDate);
+
+
 
                             // Function call, load seller info e.g. profile image, name, member since
                             loadSellerDetails();

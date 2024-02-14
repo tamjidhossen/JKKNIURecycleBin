@@ -31,18 +31,6 @@
             android:textColor="@color/white"
             android:layout_centerInParent="true" />
 
-        <!-- ImageButton: Delete the Ad (show this button only if the Ad is selected) -->
-<!--        <ImageButton
-            android:id="@+id/toolbarDeleteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/toolbarFavBtn"
-            android:src="@drawable/ic_delete"
-            app:tint="@color/white"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:padding="15dp" />-->
-
         <!-- ImageButton: Edit the Ad (show this button only if the Ad is by the current user) -->
         <ImageButton
             android:id="@+id/toolbarEditBtn"
@@ -55,7 +43,17 @@
             android:background="@android:color/transparent"
             android:padding="15dp" />
 
-
+        <!-- Delete button for Admin Only -->
+        <ImageButton
+            android:id="@+id/toolbarDeleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/toolbarEditBtn"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/white"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="15dp" />
 
         <!-- ImageButton: Add/Remove the Ad to/from favorite -->
           <ImageButton
@@ -261,24 +259,6 @@
                 android:textSize="14sp"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/ic_chat_white"/>
-
-<!--            &lt;!&ndash; MaterialButton: Show sold or not  &ndash;&gt;-->
-<!--           <com.google.android.material.button.MaterialButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@id/locationIcon"-->
-<!--                android:id="@+id/soldStatusTv"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="Sold"-->
-<!--                android:visibility="visible"-->
-<!--                android:backgroundTint="@color/DarkGreen"-->
-<!--                android:textSize="14sp"-->
-<!--                app:cornerRadius="8dp"-->
-<!--                android:minHeight="@dimen/m_button_height"-->
-<!--                android:layout_toRightOf="@id/smsBtn"-->
-<!--                android:layout_marginLeft="20dp"-->
-<!--                android:layout_marginTop="30dp"/>-->
-
 
             <!-- CardView: Seller Info e.g. name, profile image, member since date -->
             <com.google.android.material.card.MaterialCardView

@@ -91,6 +91,9 @@ public class AdDetailsActivity extends AppCompatActivity {
         loadAdDetails();
         loadAdImages();
 
+        // Enable delete option for Admin
+        enableDeleteOptionForAdmin();
+
         // Handle toolbarBackBtn click, go back
         binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,33 +104,31 @@ public class AdDetailsActivity extends AppCompatActivity {
 
 
 
-        // Handle toolbarDeleteBtn click, delete Ad
-//        binding.toolbarDeleteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Alert dialog to confirm if the user really wants to delete the Ad
-//                MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(AdDetailsActivity.this);
-//                materialAlertDialogBuilder.setTitle("Delete Ad")
-//                        .setMessage("Are you sure you want to delete this Ad?")
-//                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // Delete Clicked, delete Ad
-//                                deleteAd();
-//                            }
-//                        })
-//                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // Cancel Clicked, dismiss dialog
-//                                dialog.dismiss();
-//                            }
-//                        })
-//                        .show();
-//            }
-//        });
-
-
+        //Handle toolbarDeleteBtn click, delete Ad
+        binding.toolbarDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Alert dialog to confirm if the user really wants to delete the Ad
+                MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(AdDetailsActivity.this);
+                materialAlertDialogBuilder.setTitle("Delete Ad")
+                        .setMessage("Are you sure you want to delete this Ad?")
+                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Delete Clicked, delete Ad
+                                deleteAd();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Cancel Clicked, dismiss dialog
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
 
 
 
@@ -241,6 +242,8 @@ public class AdDetailsActivity extends AppCompatActivity {
 
     }
 
+
+
     // Edit Option for Ads and Mark as sold
     private void editOptions() {
         Log.d(TAG, "editOptions: ");
@@ -326,6 +329,23 @@ public class AdDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void enableDeleteOptionForAdmin() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Users");
+        ref.child(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.child("isAdmin").exists() == false) {
+                            binding.toolbarDeleteBtn.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
 
     private void loadAdDetails() {
         Log.d(TAG, "LoadAdDetails: ");
@@ -539,19 +559,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                         "Failed to delete due to " + e.getMessage());
             }
         });
-    }
-
-
-    // Add the following method to update soldStatusTv based on the product information
-    private void updateSoldStatus(boolean isSold) {
-        if (isSold) {
-            // If the product is sold, set the text accordingly
-            soldStatusTv.setText("Sold");
-            soldStatusTv.setVisibility(View.VISIBLE);
-        } else {
-            // If the product is not sold, hide the TextView
-            soldStatusTv.setVisibility(View.GONE);
-        }
     }
 }
 

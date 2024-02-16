@@ -76,6 +76,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         binding = RowAdBinding.inflate(LayoutInflater.from(context),parent,false);
         return new HolderAd(binding.getRoot());
     }
+
     @Override
     public void onBindViewHolder(@NonNull HolderAd holder, int position) {
         //get data from particular position of list and set to the UI Views of row_ad.xml and Handle clicks
@@ -212,11 +213,13 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
                     }
         });
     }
+
     @Override
     public int getItemCount() {
         //return the size of list
         return adArrayList.size();
     }
+
     @Override
     public Filter getFilter() {
         //init the filter obj only if it is null
@@ -225,6 +228,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         }
         return filter;
     }
+
     class HolderAd extends RecyclerView.ViewHolder{
         //UI Views of the row_ad.xml
         ShapeableImageView imageIv;

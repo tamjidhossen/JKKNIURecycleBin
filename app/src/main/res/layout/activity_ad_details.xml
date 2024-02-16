@@ -251,14 +251,31 @@
                 android:layout_below="@id/locationIcon"
                 android:layout_toRightOf="@id/callBtn"
                 android:layout_weight="1"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="30dp"
                 android:minHeight="@dimen/m_button_height"
                 android:text="SMS"
                 android:backgroundTint="@color/DarkGreen"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/ic_chat_white"/>
+
+            <!-- MaterialButton: Report Ad Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reportThisAdBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locationIcon"
+                android:layout_toRightOf="@id/smsBtn"
+                android:layout_weight="1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:minHeight="@dimen/m_button_height"
+                android:text="Report Ad"
+                android:backgroundTint="@color/DarkGreen"
+                android:textSize="10sp"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_report_white"/>
 
             <!-- CardView: Seller Info e.g. name, profile image, member since date -->
             <com.google.android.material.card.MaterialCardView
@@ -330,7 +347,25 @@
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Reports Text View for Admin -->
+            <TextView
+                android:id="@+id/reportsTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Reports"
+                android:textStyle="italic"
+                android:layout_below="@id/sellerProfileCv"
+                android:layout_marginTop="20dp"/>
 
+            <!--RecyclerView: Show Ads-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reportsRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/reportsTextTv"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_report" />
 
         </RelativeLayout>
     </ScrollView>

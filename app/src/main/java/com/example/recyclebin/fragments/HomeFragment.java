@@ -36,21 +36,16 @@ public class HomeFragment extends Fragment {
 
     //View Binding
     private FragmentHomeBinding binding;
+
     //TAG to show logs in logcat
     private static final String TAG = "HOME_TAG";
-    private static final int MAX_DISTANCE_TO_LOAD_ADS_KM = 10;
+
     //Context for this fragment class
     private Context mContext;
     //adArrayList to hold ads list to show in RecyclerView
     private ArrayList<ModelAd> adArrayList;
     //AdapterAd class instance to set to Recyclerview to show Ads list
     private AdapterAd adapterAd;
-    //SharedPreferences to store the selected location from map to load ads nearby
-    private SharedPreferences locationSp;
-    //location info required to load ads nearby. We will get this info from the SharedPreferences saved after picking from map
-    private double currentLatitude = 0.0;
-    private double currentLongitude = 0.0;
-    private String currentAddress = "";
 
     @Override
     public void onAttach(@NonNull Context context) {//get and init the context for this fragment class

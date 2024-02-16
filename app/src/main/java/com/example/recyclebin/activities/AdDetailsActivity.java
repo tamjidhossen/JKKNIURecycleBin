@@ -1,22 +1,32 @@
 package com.example.recyclebin.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.recyclebin.adapters.AdapterAd;
+import com.example.recyclebin.adapters.AdapterReport;
+import com.example.recyclebin.models.ModelReport;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -35,17 +45,22 @@ import com.example.recyclebin.models.ModelImageSlider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 
 public class AdDetailsActivity extends AppCompatActivity {
     // View Binding
     private ActivityAdDetailsBinding binding;
     private TextView soldStatusTv;
+
     // Log tag for logs in logcat
     private static final String TAG = "AD_DETAILS_TAG";
 
+    //Context for this fragment class
+    private Context mContext;
+
     // Firebase Auth for auth related tasks
     private FirebaseAuth firebaseAuth;
-
+    DatabaseReference reportRef;
     boolean sold = false;
 
     // Ad id, will get from intent
@@ -61,6 +76,11 @@ public class AdDetailsActivity extends AppCompatActivity {
     // List of Ad's images to show in the slider
     private ArrayList<ModelImageSlider> imageSliderArrayList;
 
+    //reportsArrayList to hold ads list to show in RecyclerView
+    private ArrayList<ModelReport> reportsArrayList;
+    //AdapterAd class instance to set to Recyclerview to show Ads list
+    private AdapterReport adapterReport;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +88,6 @@ public class AdDetailsActivity extends AppCompatActivity {
         // Init view binding... activity_ad_details.xml = ActivityAdDetailsBinding
         binding = ActivityAdDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         soldStatusTv = findViewById(R.id.soldStatusTv);
         // Hide some UI views at the start.
@@ -91,8 +110,13 @@ public class AdDetailsActivity extends AppCompatActivity {
         loadAdDetails();
         loadAdImages();
 
-        // Enable delete option for Admin
-        enableDeleteOptionForAdmin();
+        binding.reportsTextTv.setVisibility(View.GONE);
+        // Enable Delete Options, Report Viewing
+        if (firebaseAuth.getCurrentUser() != null) {
+            binding.reportsTextTv.setVisibility(View.VISIBLE);
+            optionsForAdmin();
+        }
+
 
         // Handle toolbarBackBtn click, go back
         binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
@@ -129,8 +153,6 @@ public class AdDetailsActivity extends AppCompatActivity {
                         .show();
             }
         });
-
-
 
         // Handle toolbarEditBtn click, start AdCreateActivity to edit this Ad
         binding.toolbarEditBtn.setOnClickListener(new View.OnClickListener() {
@@ -170,8 +192,6 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
 
 
-
-
         // Method to initiate a phone call
         binding.callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +199,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                 if(firebaseAuth.getCurrentUser() == null) {
                     Utils.toast(AdDetailsActivity.this, "Login Required");
                 }
-                else if(sold) {
+                else if ("Sold".equals(binding.soldStatusTv.getText().toString())) {
                     Utils.toast(AdDetailsActivity.this, "Item Sold");
                 }
                 else {
@@ -208,14 +228,16 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
 
 
-
         // Handle smsBtn click, make a sms
         binding.smsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(firebaseAuth.getCurrentUser() == null) {
                     Utils.toast(AdDetailsActivity.this, "Login Required");
-                } else {
+                }
+                else if ("Sold".equals(binding.soldStatusTv.getText().toString())) {
+                    Utils.toast(AdDetailsActivity.this, "Item Sold");
+                }else {
                     if(firebaseAuth.getCurrentUser().isEmailVerified()) {
                         // Get the seller's phone number
                         if (sellerPhone != null && !sellerPhone.isEmpty()) {
@@ -240,9 +262,105 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
 
+
+        // report ad button
+        binding.reportThisAdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showReportDialog();
+            }
+        });
     }
 
 
+
+    private void showReportDialog() {
+        if(firebaseAuth.getCurrentUser() == null) {
+            Utils.toast(AdDetailsActivity.this, "Login Required");
+        } else {
+            EditText reportEditText = new EditText(this);
+            reportEditText.setHint("Enter your report here");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Report This Ad");
+            builder.setView(reportEditText);
+            builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String reportText = reportEditText.getText().toString().trim();
+
+                    if (!TextUtils.isEmpty(reportText)) {
+                        // Here, you can do something with the reportText, userName, and adId
+                        // For example, send the report to a server
+                        sendReportToDatabase(reportText);
+                    }
+                }
+            });
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+        }
+    }
+
+
+    private void sendReportToDatabase(String reportText) {
+
+        //firebase database Ads reference to store the report in "Ads/ reports"
+        DatabaseReference refAds = FirebaseDatabase.getInstance().getReference("Ads").child(adId).child("Reports");
+
+        //Reference of current user info in Firebase Realtime Database to get user name
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String reportersName = "" + snapshot.child("name").getValue();
+                String reportersProfileImageUrl = "" + snapshot.child("profileImageUrl").getValue();
+
+//                String randomReportKey = firebaseAuth.getUid() + "" + new Random().nextInt(1000);
+                String randomReportKey = refAds.push().getKey();
+
+                //setup data to add in firebase database
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("reportersUid", "" + firebaseAuth.getUid());
+                hashMap.put("reportersName", "" + reportersName);
+                hashMap.put("reportersProfileImageUrl", "" + reportersProfileImageUrl);
+                hashMap.put("report", "" + reportText);
+                hashMap.put("reportId", "" + randomReportKey);
+                hashMap.put("adId", "" + adId);
+
+                Log.d(TAG, "Report Text: " + reportText);
+                Log.d(TAG, "User Name: " + reportersName);
+                Log.d(TAG, "Ad ID: " + adId);
+
+                //set data to firebase database. Ads -> AdId -> Reports
+                refAds.child(randomReportKey)
+                        .updateChildren(hashMap)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Utils.toast(AdDetailsActivity.this, "Report Submitted");
+                                Log.d(TAG, "onSuccess: Report Added");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: ", e);
+                                Utils.toast(AdDetailsActivity.this, "Report Submission Failed "+e.getMessage());
+                            }
+                        });
+
+            }
+
+            @Override
+
+            public void onCancelled(@NonNull DatabaseError error) {
+
+
+            }
+
+        });
+
+    }
 
     // Edit Option for Ads and Mark as sold
     private void editOptions() {
@@ -279,7 +397,6 @@ public class AdDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void showMarkAsSoldDialog() {
         // Material Alert Dialog - Setup and show
@@ -329,23 +446,6 @@ public class AdDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void enableDeleteOptionForAdmin() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Users");
-        ref.child(firebaseAuth.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.child("isAdmin").exists() == false) {
-                            binding.toolbarDeleteBtn.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
 
     private void loadAdDetails() {
         Log.d(TAG, "LoadAdDetails: ");
@@ -360,7 +460,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                             ModelAd modelAd = snapshot.getValue(ModelAd.class);
 
                             // Get data from the model
-//                          sellerUid = modelAd.getUid();
+                            //sellerUid = modelAd.getUid();
                             sellerUid = snapshot.child("vid").getValue(String.class);
                             String title = modelAd.getTitle();
                             String description = modelAd.getDescription();
@@ -369,6 +469,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                             String price = modelAd.getPrice();
                             long timestamp = modelAd.getTimestamp();
                             String isSold = modelAd.getStatus();
+
                             Log.d(TAG, "IS_SOLD = " + isSold);
 
                             // Format date time e.g. timestamp to dd/MM/yyyy
@@ -406,12 +507,11 @@ public class AdDetailsActivity extends AppCompatActivity {
                             binding.dateTv.setText(formattedDate);
 
 
-
                             // Function call, load seller info e.g. profile image, name, member since
                             loadSellerDetails();
 
                         } catch (Exception e) {
-                            Log.e(TAG, "onDataChange: ", e);
+                            Log.e(TAG, "onDataChange_LoadAd: ", e);
                         }
             }
 
@@ -458,7 +558,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                             .into(binding.sellerProfileIv);
 
                 } catch (Exception e) {
-                    Log.e(TAG, "onDataChange: ", e);
+                    Log.e(TAG, "onDataChange_LoadSeller: ", e);
                 }
             }
 
@@ -466,6 +566,30 @@ public class AdDetailsActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+
+
+    //Options for Admin
+    private void optionsForAdmin() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference ("Users");
+
+        ref.child(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.child("isAdmin").exists() == false) {
+                            binding.toolbarDeleteBtn.setVisibility(View.GONE);
+                            binding.reportsTextTv.setVisibility(View.GONE);
+                            binding.reportsRv.setVisibility(View.GONE);
+                        } else {
+                            loadReports();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
 
@@ -497,6 +621,37 @@ public class AdDetailsActivity extends AppCompatActivity {
                 });
     }
 
+
+    private void loadReports() {
+        Log.d(TAG, "LoadReports: ");
+
+        // init before adding data
+        reportsArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads").child(adId).child("Reports");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                reportsArrayList.clear();
+
+                // load reports
+                for (DataSnapshot ds: snapshot.getChildren()) {
+                    //prepare ModelReport with all reports from firebase
+                    ModelReport modelReport = ds.getValue(ModelReport.class);
+
+                    reportsArrayList.add(modelReport);
+                }
+                adapterReport = new AdapterReport(AdDetailsActivity.this, reportsArrayList);
+                binding.reportsRv.setAdapter(adapterReport);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     // Method to load images associated with the current ad from the Firebase Realtime Database
     private void loadAdImages() {

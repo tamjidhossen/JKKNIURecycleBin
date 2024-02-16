@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app= "http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <!--Reporters Image-->
+        <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/reportersImageIv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+            app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
+        android:background="@color/colorGray02"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_image_gray"/>
+
+        <!--Reporters Name-->
+        <TextView
+            android:id="@+id/reportersNameTv"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@id/reportersImageIv"
+            android:ellipsize="end"
+            android:text="user name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Report Delete button -->
+        <ImageButton
+            android:id="@+id/reportDeleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-12dp"
+            android:background="@android:color/transparent"
+            android:padding="15dp"
+            android:src="@drawable/ic_delete" />
+
+        <!--TextView: Show date of the Ad when added-->
+        <TextView
+            android:id="@+id/reportDescriptionTv"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:layout_toEndOf="@id/reportersImageIv"
+            android:text="Description for the report"
+            android:textStyle="italic"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@id/reportersNameTv"/>
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

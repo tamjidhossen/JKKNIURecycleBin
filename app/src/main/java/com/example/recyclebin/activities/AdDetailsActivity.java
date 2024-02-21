@@ -1,5 +1,6 @@
 package com.example.recyclebin.activities;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -88,6 +93,11 @@ public class AdDetailsActivity extends AppCompatActivity {
         // Init view binding... activity_ad_details.xml = ActivityAdDetailsBinding
         binding = ActivityAdDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // so it does not blend with DarkGreen Background
+        binding.toolbarFavBtn.setColorFilter(R.color.black);
+
+        setStatusBarColor(R.color.DarkGreen, R.color.DarkGreen);
 
         soldStatusTv = findViewById(R.id.soldStatusTv);
         // Hide some UI views at the start.
@@ -272,6 +282,24 @@ public class AdDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+    private void setStatusBarColor(@ColorRes int lightColorRes, @ColorRes int darkColorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            // Check the current theme mode
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            int colorRes = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) ? darkColorRes : lightColorRes;
+
+            window.setStatusBarColor(ContextCompat.getColor(this, colorRes));
+
+            //bottom nav bar is always Dark id dark mode on
+            if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorGray03));
+            }
+        }
+    }
 
 
     private void showReportDialog() {

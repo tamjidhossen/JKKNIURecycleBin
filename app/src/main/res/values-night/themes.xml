@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.RecycleBin" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Base.Theme.RecycleBin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-         <item name="colorPrimary">@color/Navy</item>
+         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/DarkGreen</item>
-        <item name="android:statusBarColor">@color/Navy</item>
+        <item name="android:statusBarColor">@color/colorGray03</item>
 
     </style>
 </resources>

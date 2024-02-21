@@ -1,15 +1,22 @@
 package com.example.recyclebin.activities;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.bumptech.glide.Glide;
 import com.example.recyclebin.R;
 import com.example.recyclebin.databinding.ActivityAdSellerProfileBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +38,9 @@ public class AdSellerProfileActivity extends AppCompatActivity {
         binding = ActivityAdSellerProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setStatusBarColor(R.color.DarkGreen, R.color.DarkGreen);
+
+
         sellerUid = getIntent().getStringExtra("sellerUid");
         Log.d(TAG, "onCreate: sellerUid: " + sellerUid);
 
@@ -43,6 +53,23 @@ public class AdSellerProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void setStatusBarColor(@ColorRes int lightColorRes, @ColorRes int darkColorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            // Check the current theme mode
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            int colorRes = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) ? darkColorRes : lightColorRes;
+
+            window.setStatusBarColor(ContextCompat.getColor(this, colorRes));
+
+            //bottom nav bar is always Dark Green
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.DarkGreen));
+        }
     }
 
 

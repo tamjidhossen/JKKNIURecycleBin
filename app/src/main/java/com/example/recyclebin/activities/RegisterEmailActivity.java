@@ -1,15 +1,22 @@
 package com.example.recyclebin.activities;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
+import com.example.recyclebin.R;
 import com.example.recyclebin.Utils;
 import com.example.recyclebin.databinding.ActivityRegisterEmailBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +44,9 @@ public class RegisterEmailActivity extends AppCompatActivity {
 
         binding = ActivityRegisterEmailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        setStatusBarColor(R.color.Navy, R.color.Navy);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -67,6 +77,23 @@ public class RegisterEmailActivity extends AppCompatActivity {
                 validateData();
             }
         });
+    }
+
+
+    private void setStatusBarColor(@ColorRes int lightColorRes, @ColorRes int darkColorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            // Check the current theme mode
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            int colorRes = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) ? darkColorRes : lightColorRes;
+
+            window.setStatusBarColor(ContextCompat.getColor(this, colorRes));
+
+            //bottom nav bar is always Green
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.Green));
+        }
     }
 
     private String email, password, cPassword;

@@ -39,15 +39,17 @@
             <!--Material Button: Opens Register-->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginEmailBtn"
-
+                app:backgroundTint="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Continue With Email"
+                android:textColor="@color/black"
                 android:textAllCaps="false"
                 android:textSize="20sp"
                 app:cornerRadius="8dp"
                 android:minHeight="@dimen/m_button_height"
                 app:icon="@drawable/ic_email_white"
+                app:iconTint="@color/black"
                 app:iconSize="24dp"/>
         </LinearLayout>
 

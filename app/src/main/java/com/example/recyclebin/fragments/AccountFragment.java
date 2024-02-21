@@ -3,15 +3,20 @@ package com.example.recyclebin.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.bumptech.glide.Glide;
 import com.example.recyclebin.activities.MainActivity;
@@ -67,6 +72,23 @@ public class AccountFragment extends Fragment {
 
         //get instance of firebase auth for Auth related tasks
         firebaseAuth = FirebaseAuth.getInstance();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Check the current theme mode
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                int whiteColor = ContextCompat.getColor(getContext(), R.color.white);
+                binding.nameLabelTv.setTextColor(whiteColor);
+                binding.deptLabelTv.setTextColor(whiteColor);
+                binding.emailLabelTv.setTextColor(whiteColor);
+                binding.phoneLabelTv.setTextColor(whiteColor);
+                binding.sessionLabelTv.setTextColor(whiteColor);
+                binding.verificationLabelTv.setTextColor(whiteColor);
+            }
+        }
+
+
+        binding.AdminStatus.setVisibility(View.GONE);
 
         loadMyInfo();
 
@@ -156,8 +178,8 @@ public class AccountFragment extends Fragment {
                         //format timestamp to dd/MM/yyyy
 //                        String formattedDate = Utils.formatTimestampDate(Long.parseLong(timestamp));
 
-                        if(snapshot.child("isAdmin").exists() == false) {
-                            binding.AdminStatus.setVisibility(View.GONE);
+                        if(snapshot.child("isAdmin").exists() == true) {
+                            binding.AdminStatus.setVisibility(View.VISIBLE);
                         }
 
                         //set data to UI

@@ -249,7 +249,7 @@
         android:layout_marginBottom="10dp"
         android:minHeight="@dimen/m_button_height"
         android:text="Post Ad"
-        android:backgroundTint="@color/Navy"
+        android:backgroundTint="@color/DarkGreen"
         app:cornerRadius="8dp" />
 
 </RelativeLayout>

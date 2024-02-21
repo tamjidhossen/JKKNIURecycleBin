@@ -2,10 +2,13 @@ package com.example.recyclebin.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -65,6 +68,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Check the current theme mode
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                int whiteColor = ContextCompat.getColor(getContext(), R.color.white);
+                binding.browseCatTv.setTextColor(whiteColor);
+                binding.textView.setTextColor(whiteColor);
+                binding.catNameTv.setTextColor(whiteColor);
+            }
+        }
 
         //loads category
         loadCategories();

@@ -66,11 +66,6 @@
             android:background="@android:color/transparent"
             android:padding="15dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorGray02"
-            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 

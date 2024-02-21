@@ -28,8 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Edit Profile"
-            android:textColor="@color/Navy"/>
+            android:text="Edit Profile"/>
 
         <!--View: To make Toolbar look separate from other UI-->
         <View
@@ -61,7 +60,7 @@
                     android:id="@+id/profileIv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/Navy"
+                    android:background="@color/colorGray01"
                     android:src="@drawable/ic_person_white"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/ImageStyle_Circle"/>
@@ -247,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/phoneInputRl"
                 android:text="Update      "
-                android:backgroundTint="@color/Navy"
+                android:backgroundTint="@color/DarkGreen"
                 android:layout_marginTop="20dp"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/ic_person_white"

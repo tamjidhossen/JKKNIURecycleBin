@@ -1,14 +1,21 @@
 package com.example.recyclebin.activities;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.recyclebin.fragments.ChatsFragment;
 import com.example.recyclebin.fragments.HomeFragment;
@@ -138,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "HomeFragment");
         fragmentTransaction.commit();
+
+        // Set status bar color
+        setStatusBarColor(R.color.white, R.color.colorGray03);
+
     }
 //    private void showChatsFragment(){
 //        //change toolbar textView text/title to Chats
@@ -158,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "MyAdsFragment");
         fragmentTransaction.commit();
+
+        // Set status bar color
+        setStatusBarColor(R.color.DarkGreen, R.color.DarkGreen);
     }
     private void showAccountFragment(){
         //change toolbar textView text/title to Account
@@ -168,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(binding.fragmentsFl.getId(), fragment, "AccountFragment");
         fragmentTransaction.commit();
+
+        // Set status bar color
+        setStatusBarColor(R.color.white, R.color.colorGray03);
     }
 
     private void logoutPopup(){
@@ -193,6 +210,24 @@ public class MainActivity extends AppCompatActivity {
     }
     private void startLoginOptions() {
         startActivity(new Intent(this, LoginOptionsActivity.class));
+    }
+
+    private void setStatusBarColor(@ColorRes int lightColorRes, @ColorRes int darkColorRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            // Check the current theme mode
+            int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            int colorRes = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) ? darkColorRes : lightColorRes;
+
+            window.setStatusBarColor(ContextCompat.getColor(this, colorRes));
+
+            //bottom nav bar is always Dark id dark mode on
+            if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorGray03));
+            }
+        }
     }
 
 }

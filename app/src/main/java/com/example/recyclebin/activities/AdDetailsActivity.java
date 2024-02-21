@@ -100,9 +100,11 @@ public class AdDetailsActivity extends AppCompatActivity {
         setStatusBarColor(R.color.DarkGreen, R.color.DarkGreen);
 
         soldStatusTv = findViewById(R.id.soldStatusTv);
+
         // Hide some UI views at the start.
         // We will show the Edit, Delete option if the user is Ad owner.
         binding.toolbarEditBtn.setVisibility(View.GONE);
+        binding.toolbarDeleteBtn.setVisibility(View.GONE);
 
         // Get the id of the Ad (as passed in AdapterAd class while starting this activity)
         adId = getIntent().getStringExtra("adId");
@@ -512,17 +514,38 @@ public class AdDetailsActivity extends AppCompatActivity {
                                 binding.soldStatusTv.setTextColor(soldTextColor); // Set color from colors.xml
                             }
 
+
+                            DatabaseReference refAdmin = FirebaseDatabase.getInstance().getReference ("Users");
+                            refAdmin.child(firebaseAuth.getUid())
+                                    .addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.child("isAdmin").exists() == true) {
+                                                binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
+                                            } else if(sellerUid != null && sellerUid.equals(firebaseAuth.getUid()) && Objects.equals(isSold, Utils.AD_STATUS_AVAILABLE)){
+                                                binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
+                                            } else {
+                                                binding.toolbarDeleteBtn.setVisibility(View.GONE);
+                                                binding.toolbarEditBtn.setVisibility(View.GONE);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+
                             // Check if the Ad is by the currently signed-in user
                             if (sellerUid != null && sellerUid.equals(firebaseAuth.getUid())) {
                                 // Ad is created by currently signed-in user
                                 // 1) Should be able to edit and delete Ad
                                 binding.toolbarEditBtn.setVisibility(View.VISIBLE);
-                                //binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
                             } else {
                                 // Ad is not created by currently signed-in user
                                 // 1) Shouldn't be able to edit and delete Ad
                                 binding.toolbarEditBtn.setVisibility(View.GONE);
-                                //binding.toolbarDeleteBtn.setVisibility(View.GONE);
+
                             }
 
                             // Set data to UI Views
@@ -606,10 +629,10 @@ public class AdDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.child("isAdmin").exists() == false) {
-                            binding.toolbarDeleteBtn.setVisibility(View.GONE);
                             binding.reportsTextTv.setVisibility(View.GONE);
                             binding.reportsRv.setVisibility(View.GONE);
                         } else {
+                            binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
                             loadReports();
                         }
                     }

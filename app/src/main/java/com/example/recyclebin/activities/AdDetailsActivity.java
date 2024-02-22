@@ -485,6 +485,7 @@ public class AdDetailsActivity extends AppCompatActivity {
     private void loadAdDetails() {
         Log.d(TAG, "LoadAdDetails: ");
         // Ad's db path to get the Ad details. Ads > AdId
+        Log.d(TAG, "adid here "+adId);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
         ref.child(adId)
                 .addValueEventListener(new ValueEventListener() {
@@ -519,42 +520,43 @@ public class AdDetailsActivity extends AppCompatActivity {
                                 binding.soldStatusTv.setTextColor(soldTextColor); // Set color from colors.xml
                             }
 
-
-                            DatabaseReference refAdmin = FirebaseDatabase.getInstance().getReference ("Users");
-                            refAdmin.child(firebaseAuth.getUid())
-                                    .addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            if(snapshot.child("isAdmin").exists() == true) {
-                                                binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
-                                            } else if(sellerUid != null && sellerUid.equals(firebaseAuth.getUid()) && Objects.equals(isSold, Utils.AD_STATUS_AVAILABLE)){
-                                                binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
-                                            } else {
-                                                binding.toolbarDeleteBtn.setVisibility(View.GONE);
-                                                binding.toolbarEditBtn.setVisibility(View.GONE);
+                            if(firebaseAuth.getCurrentUser() != null) {
+                                DatabaseReference refAdmin = FirebaseDatabase.getInstance().getReference ("Users");
+                                refAdmin.child(firebaseAuth.getUid())
+                                        .addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if(snapshot.child("isAdmin").exists() == true) {
+                                                    binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
+                                                } else if(sellerUid != null && sellerUid.equals(firebaseAuth.getUid()) && Objects.equals(isSold, Utils.AD_STATUS_AVAILABLE)){
+                                                    binding.toolbarDeleteBtn.setVisibility(View.VISIBLE);
+                                                } else {
+                                                    binding.toolbarDeleteBtn.setVisibility(View.GONE);
+                                                    binding.toolbarEditBtn.setVisibility(View.GONE);
+                                                }
                                             }
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                        }
-                                    });
+                                            }
+                                        });
 
 
-                            // Check if the Ad is by the currently signed-in user
-                            if (sellerUid != null && sellerUid.equals(firebaseAuth.getUid())) {
-                                // Ad is created by currently signed-in user
-                                // 1) Should be able to edit and delete Ad
-                                binding.toolbarEditBtn.setVisibility(View.VISIBLE);
-                            } else {
-                                // Ad is not created by currently signed-in user
-                                // 1) Shouldn't be able to edit and delete Ad
-                                binding.toolbarEditBtn.setVisibility(View.GONE);
+                                // Check if the Ad is by the currently signed-in user
+                                if (sellerUid != null && sellerUid.equals(firebaseAuth.getUid())) {
+                                    // Ad is created by currently signed-in user
+                                    // 1) Should be able to edit and delete Ad
+                                    binding.toolbarEditBtn.setVisibility(View.VISIBLE);
+                                } else {
+                                    // Ad is not created by currently signed-in user
+                                    // 1) Shouldn't be able to edit and delete Ad
+                                    binding.toolbarEditBtn.setVisibility(View.GONE);
 
+                                }
                             }
 
+
                             // Set data to UI Views
-        //                    binding.titleTv.setText(title);
                             binding.titleTv.setText(title);
                             binding.descriptionTv.setText(description);
                             binding.addressTv.setText(address);
@@ -594,11 +596,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                     String name = "" + snapshot.child("name").getValue();
                     String profileImageUrl = "" + snapshot.child("profileImageUrl").getValue();
                     String dept = "" + snapshot.child("dept").getValue();
-                    String soldStatus = "" + snapshot.child("status").getValue();
 
-                    if(soldStatus.equals("SOLD")) {
-                        sold = true;
-                    }
 
                     // Combine phone code and phone number to get the seller's phone
                     sellerPhone = phoneNumber;
@@ -612,6 +610,16 @@ public class AdDetailsActivity extends AppCompatActivity {
                             .load(profileImageUrl)
                             .placeholder(R.drawable.ic_person_white)
                             .into(binding.sellerProfileIv);
+
+                    // Load seller's profile image using Glide only if the activity is valid
+//                    if (!isDestroyed() && !isFinishing()) {
+//                        Glide.with(AdDetailsActivity.this)
+//                                .load(profileImageUrl)
+//                                .placeholder(R.drawable.ic_person_white)
+//                                .into(binding.sellerProfileIv);
+//                    }
+
+                    Log.d(TAG, "Image Set");
 
                 } catch (Exception e) {
                     Log.e(TAG, "onDataChange_LoadSeller: ", e);
@@ -717,32 +725,38 @@ public class AdDetailsActivity extends AppCompatActivity {
         imageSliderArrayList = new ArrayList<>();
 
         // Database path to load ad images: Ads > adId > Images
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
-        ref.child(adId).child("Images").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Clear the list before adding data into it
-                imageSliderArrayList.clear();
+        if (adId != null) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+            ref.child(adId).child("Images").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    // Clear the list before adding data into it
+                    imageSliderArrayList.clear();
 
-                // Loop through each child snapshot to load all images
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    // Prepare model (spellings in model class should be the same as in Firebase)
-                    ModelImageSlider modelImageSlider = ds.getValue(ModelImageSlider.class);
+                    // Loop through each child snapshot to load all images
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        // Prepare model (spellings in model class should be the same as in Firebase)
+                        ModelImageSlider modelImageSlider = ds.getValue(ModelImageSlider.class);
 
-                    // Add the prepared model to the list
-                    imageSliderArrayList.add(modelImageSlider);
+                        // Add the prepared model to the list
+                        imageSliderArrayList.add(modelImageSlider);
+                    }
+
+                    // Setup adapter and set it to the ViewPager (imageSliderVp)
+                    AdapterImageSlider adapterImageSlider = new AdapterImageSlider(
+                            AdDetailsActivity.this, imageSliderArrayList);
+                    binding.imageSliderVp.setAdapter(adapterImageSlider);
                 }
 
-                // Setup adapter and set it to the ViewPager (imageSliderVp)
-                AdapterImageSlider adapterImageSlider = new AdapterImageSlider(
-                        AdDetailsActivity.this, imageSliderArrayList);
-                binding.imageSliderVp.setAdapter(adapterImageSlider);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle onCancelled event
+                }
+            });
+        } else {
+            Log.e(TAG, "Ad ID is null");
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
 
     // Method to delete the current ad

@@ -1,5 +1,6 @@
 package com.example.recyclebin.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -141,10 +142,10 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
                 boolean favourite = modelAd.isFavorite();
                 if (favourite){
                    // Utils.removeFromFavorite(context, modelAd.getId());
-                    Utils.removeFromFavorite(context, modelAd.getId(), holder.favoriteCountTv);
+                    Utils.removeFromFavorite((Activity) context, modelAd.getId(), holder.favoriteCountTv);
                 } else {
                     //Utils.addToFavorite(context, modelAd.getId());
-                    Utils.addToFavorite(context, modelAd.getId(), holder.favoriteCountTv);
+                    Utils.addToFavorite((Activity) context, modelAd.getId(), holder.favoriteCountTv);
                 }
             }
         });

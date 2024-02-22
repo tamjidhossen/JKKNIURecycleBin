@@ -1,7 +1,9 @@
 package com.example.recyclebin;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ public class Utils {
 
     public static final String AD_STATUS_AVAILABLE = "AVAILABLE";
     public static final String AD_STATUS_SOLD = "SOLD";
+
+    private static final String TAG = "UTILS_TAG";
 
     //Categories array of the Ads
     public static final String[] categories = {
@@ -96,120 +100,65 @@ public class Utils {
         return date;
     }
 
+    //fixed issue of app crashing
+    public static void addToFavorite(Context context, String adId, TextView favoriteCountTv) {
+        Log.d(TAG, "addToFavorite called");
 
-//    /**
-//     * Add the ad to favorites.
-//     *
-//     * @param context The context of the activity/fragment from where this function will be called.
-//     * @param adId    The ID of the ad to be added to the favorites of the current user.
-//     */
-//    public static void addToFavorite(Context context, String adId) {
-//        // Check if the user is logged in
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        if (firebaseAuth.getCurrentUser() == null) {
-//            // Not logged in, can't add to favorites
-//            Utils.toast(context, "Login Required");
-//        } else {
-//            // Logged in, can add to favorites
-//            // Get timestamp
-//            long timestamp = Utils.getTimestamp();
-//
-//            // Setup data to add in Firebase database
-//            HashMap<String, Object> hashMap = new HashMap<>();
-//            hashMap.put("adId", adId);
-//            hashMap.put("timestamp", timestamp);
-//
-//            // Add data to the database: Users › vid › Favorites › adId › favoriteDataObj
-//            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-//            ref.child(firebaseAuth.getUid())
-//                    .child("Favorites")
-//                    .child(adId)
-//                    .setValue(hashMap)
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void unused) {
-//                            // Success
-//                            Utils.toast(context, "Added to favorites!");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            // Failed
-//                            Utils.toast(context, "Failed to add to favorites due to " + e.getMessage());
-//                        }
-//                    });
-//        }
-//    }
-//
-//
-//    /**
-//    * Remove the add from favorite
-//    * @param context the context of activity/fragment from where this function will be called
-//    the Id of the add to be removed from favorite of current user
-//    */
-//    public static void removeFromFavorite(Context context, String adId) {
-//        // Check if the user is logged in
-//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//        if (firebaseAuth.getCurrentUser() == null) {
-//            // Not logged in, can't remove from favorite
-//            Utils.toast(context, "Login Required");
-//        } else {
-//            // Logged in, can remove from favorite
-//            // Remove data from the database: Users › vid › Favorites › adId
-//            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-//            ref.child(firebaseAuth.getUid())
-//                .child("Favorites")
-//                .child(adId)
-//                .removeValue()
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        // Success
-//                        Utils.toast(context, "Removed from favorites");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        // Failed
-//                        Utils.toast(context, "Failed to remove from favorites due to " + e.getMessage());
-//                    }
-//                });
-//        }
-//    }
-public static void addToFavorite(Context context, String adId, TextView favoriteCountTv) {
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    if (firebaseAuth.getCurrentUser() == null) {
-        toast(context, "Login Required");
-    } else {
-        long timestamp = getTimestamp();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("adId", adId);
-        hashMap.put("timestamp", timestamp);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            toast(context, "Login Required");
+        } else {
+            long timestamp = getTimestamp();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("adId", adId);
+            hashMap.put("timestamp", timestamp);
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid())
-                .child("Favorites")
-                .child(adId)
-                .setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        toast(context, "Added to favorites!");
-                        updateFavoriteCount(context, favoriteCountTv, adId, 1);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        toast(context, "Failed to add to favorites due to " + e.getMessage());
-                    }
-                });
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid())
+                    .child("Favorites")
+                    .child(adId)
+                    .setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            toast(context, "Added to favorites!");
+                            // Update favorite count immediately after adding to favorites
+                            DatabaseReference adRef = FirebaseDatabase.getInstance().getReference("Ads").child(adId).child("favoriteCount");
+                            adRef.runTransaction(new Transaction.Handler() {
+                                @Override
+                                public Transaction.Result doTransaction(MutableData mutableData) {
+                                    Integer currentFavoriteCount = mutableData.getValue(Integer.class);
+                                    if (currentFavoriteCount == null) {
+                                        currentFavoriteCount = 0;
+                                    }
+                                    // Increment the favorite count
+                                    int newFavoriteCount = currentFavoriteCount + 1;
+                                    mutableData.setValue(newFavoriteCount);
+                                    return Transaction.success(mutableData);
+                                }
+
+                                @Override
+                                public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                                    if (!committed) {
+                                        // Transaction failed
+                                        Utils.toast(context, "Failed to update favorite count due to " + databaseError.getMessage());
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            toast(context, "Failed to add to favorites due to " + e.getMessage());
+                        }
+                    });
+        }
     }
-}
 
     public static void removeFromFavorite(Context context, String adId, TextView favoriteCountTv) {
+        Log.d(TAG, "removeFromFavorite called");
+
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             toast(context, "Login Required");
@@ -223,7 +172,29 @@ public static void addToFavorite(Context context, String adId, TextView favorite
                         @Override
                         public void onSuccess(Void unused) {
                             toast(context, "Removed from favorites");
-                            updateFavoriteCount(context,  favoriteCountTv, adId , -1);
+                            // Update favorite count immediately after removing from favorites
+                            DatabaseReference adRef = FirebaseDatabase.getInstance().getReference("Ads").child(adId).child("favoriteCount");
+                            adRef.runTransaction(new Transaction.Handler() {
+                                @Override
+                                public Transaction.Result doTransaction(MutableData mutableData) {
+                                    Integer currentFavoriteCount = mutableData.getValue(Integer.class);
+                                    if (currentFavoriteCount == null) {
+                                        currentFavoriteCount = 0;
+                                    }
+                                    // Decrement the favorite count, ensuring it doesn't go below 0
+                                    int newFavoriteCount = Math.max(currentFavoriteCount - 1, 0);
+                                    mutableData.setValue(newFavoriteCount);
+                                    return Transaction.success(mutableData);
+                                }
+
+                                @Override
+                                public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+                                    if (!committed) {
+                                        // Transaction failed
+                                        Utils.toast(context, "Failed to update favorite count due to " + databaseError.getMessage());
+                                    }
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -234,74 +205,5 @@ public static void addToFavorite(Context context, String adId, TextView favorite
                     });
         }
     }
-
-    //    private static void updateFavoriteCount(Context context, TextView favoriteCountTv, String adId, int change) {
-//        DatabaseReference adRef = FirebaseDatabase.getInstance().getReference("Ads").child(adId);
-//        adRef.runTransaction(new Transaction.Handler() {
-//
-//            @Override
-//            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-//                Integer currentFavoriteCount = currentData.child("favoriteCount").getValue(Integer.class);
-//                if (currentFavoriteCount == null) {
-//                    currentFavoriteCount = 0;
-//                }
-//                int newFavoriteCount = currentFavoriteCount + change;
-//                currentData.child("favoriteCount").setValue(newFavoriteCount);
-//                return Transaction.success(currentData);
-//            }
-//
-//            @Override
-//            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-//                if (committed && currentData != null) {
-//                    Integer newFavoriteCount = currentData.child("favoriteCount").getValue(Integer.class);
-//                    if (newFavoriteCount != null) {
-//                        favoriteCountTv.setText(String.valueOf(newFavoriteCount));
-//                    } else {
-//                        // Handle the case where newFavoriteCount is null
-//                        Utils.toast(context, "Failed to update favorite count: newFavoriteCount is null");
-//                    }
-//                } else {
-//                    Utils.toast(context, "Failed to update favorite count due to " + error.getMessage());
-//                }
-//            }
-//        });
-//    }
-    private static void updateFavoriteCount(Context context, TextView favoriteCountTv, String adId, int change) {
-        DatabaseReference adRef = FirebaseDatabase.getInstance().getReference("Ads").child(adId);
-        adRef.runTransaction(new Transaction.Handler() {
-
-            @Override
-            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                Integer currentFavoriteCount = currentData.child("favoriteCount").getValue(Integer.class);
-                if (currentFavoriteCount == null) {
-                    currentFavoriteCount = 0;
-                }
-                int newFavoriteCount = currentFavoriteCount + change;
-
-                // Ensure the new favorite count is not less than 0
-                newFavoriteCount = Math.max(newFavoriteCount, 0);
-
-                currentData.child("favoriteCount").setValue(newFavoriteCount);
-                return Transaction.success(currentData);
-            }
-
-            @Override
-            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                if (committed && currentData != null) {
-                    Integer newFavoriteCount = currentData.child("favoriteCount").getValue(Integer.class);
-                    if (newFavoriteCount != null) {
-                        favoriteCountTv.setText(String.valueOf(newFavoriteCount));
-                    } else {
-                        // Handle the case where newFavoriteCount is null
-                        Utils.toast(context, "Failed to update favorite count: newFavoriteCount is null");
-                    }
-                } else {
-                    Utils.toast(context, "Failed to update favorite count due to " + error.getMessage());
-                }
-            }
-        });
-    }
-
-
 
 }

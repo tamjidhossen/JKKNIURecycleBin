@@ -99,6 +99,21 @@
             android:padding="15dp"
             android:src="@drawable/ic_fav_no" />
 
+        <!-- TextView: Show the product fav List+++++++++++++++++++++++++++++++ -->
+        <TextView
+            android:id="@+id/favoriteCountTv"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleTv"
+            android:layout_alignRight="@id/favBtn"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="4dp"
+            android:text="0"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:textColor="@color/colorDarkGray01" />
+
         <!--TextView: Show price of the product-->
         <TextView
             android:id="@+id/priceSymbolTv"

@@ -140,9 +140,11 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
             public void onClick(View view) {
                 boolean favourite = modelAd.isFavorite();
                 if (favourite){
-                    Utils.removeFromFavorite(context, modelAd.getId());
+                   // Utils.removeFromFavorite(context, modelAd.getId());
+                    Utils.removeFromFavorite(context, modelAd.getId(), holder.favoriteCountTv);
                 } else {
-                    Utils.addToFavorite(context, modelAd.getId());
+                    //Utils.addToFavorite(context, modelAd.getId());
+                    Utils.addToFavorite(context, modelAd.getId(), holder.favoriteCountTv);
                 }
             }
         });
@@ -172,6 +174,8 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
                             // Not Favorite, set image ic_fav_no to button favBtn
                             holder.favBtn.setImageResource(R.drawable.ic_fav_no);
                         }
+                        // Update favoriteCountTv directly based on the model data++++++++++++++++++++++++++++++++
+                        holder.favoriteCountTv.setText(String.valueOf(modelAd.getFavoriteCount()));
                     }
 
                     @Override
@@ -236,7 +240,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
         //UI Views of the row_ad.xml
         ShapeableImageView imageIv;
         TextView titleTv, ownerAdNameTv, descriptionTv, addressTv, conditionTv, priceTv, dateTv;
-
+        TextView favoriteCountTv;//+++++++++++++++++++++++
         ImageButton favBtn;
         public HolderAd(@NonNull View itemView) {
             super(itemView);
@@ -250,6 +254,7 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> implemen
 //            conditionTv = binding.conditionTv;
             priceTv = binding.priceTv;
             dateTv = binding.dateTv;
+            favoriteCountTv = binding.favoriteCountTv;//++++++++++++++++++++++++
         }
     }
 }

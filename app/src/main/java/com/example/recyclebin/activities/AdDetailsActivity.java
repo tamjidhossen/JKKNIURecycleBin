@@ -56,6 +56,7 @@ public class AdDetailsActivity extends AppCompatActivity {
     // View Binding
     private ActivityAdDetailsBinding binding;
     private TextView soldStatusTv;
+    private TextView favoriteCountTv;//+++++++++++++++++++++++++++++++++
 
     // Log tag for logs in logcat
     private static final String TAG = "AD_DETAILS_TAG";
@@ -100,6 +101,8 @@ public class AdDetailsActivity extends AppCompatActivity {
         setStatusBarColor(R.color.DarkGreen, R.color.DarkGreen);
 
         soldStatusTv = findViewById(R.id.soldStatusTv);
+        favoriteCountTv = findViewById(R.id.favoriteCountTv);//++++++++++++++++++++++++++++
+
 
         // Hide some UI views at the start.
         // We will show the Edit, Delete option if the user is Ad owner.
@@ -180,10 +183,12 @@ public class AdDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (favorite) {
                     // This Ad is in the favorite of the current user, remove from favorite
-                    Utils.removeFromFavorite(AdDetailsActivity.this, adId);
+                    //Utils.removeFromFavorite(AdDetailsActivity.this, adId);
+                    Utils.removeFromFavorite(AdDetailsActivity.this, adId, favoriteCountTv); // Pass the TextView reference++++++++++++++
                 } else {
                     // This Ad is not in the favorite of the current user, add to favorite
-                    Utils.addToFavorite(AdDetailsActivity.this, adId);
+                    //Utils.addToFavorite(AdDetailsActivity.this, adId);
+                    Utils.addToFavorite(AdDetailsActivity.this, adId, favoriteCountTv); // Pass the TextView reference++++++++++++++++++
                 }
             }
         });

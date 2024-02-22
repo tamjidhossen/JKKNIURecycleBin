@@ -17,6 +17,7 @@ public class ModelAd {
     double latitude;
     double longitude;
     boolean favorite;
+    int favoriteCount;//+++++++++++++++++++++++++++
 
     public ModelAd() {
 
@@ -138,6 +139,26 @@ public class ModelAd {
     }
     public String getStatus() {
         return status;
+    }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    // Increment the favorite count by 1
+    public void incrementFavoriteCount() {
+        this.favoriteCount++;
+    }
+
+    // Decrement the favorite count by 1
+    public void decrementFavoriteCount() {
+        if (this.favoriteCount > 0) {
+            this.favoriteCount--;
+        }
     }
 
 }

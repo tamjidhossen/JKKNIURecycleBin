@@ -4,33 +4,13 @@ A comprehensive buy-sell marketplace Android application for students of Jatiya 
 
 ## 🌟 Features
 
-### User Management
-
-- **Student Registration & Authentication**: Secure login system with email verification
-- **Profile Management**: Students can update their profiles and view their transaction history
-- **Student Verification**: Email-based verification system for JKKNIU students
-- **Like-based Rating System**: Facebook-style like system for users and items
-
-### Marketplace Features
-
-- **Post Items for Sale**: Easy listing creation with photos, descriptions, and pricing
-- **Browse & Search**: Advanced search and filtering options by category
+- **Student Registration & Login**: Secure email-based authentication with Firebase
+- **Post & Browse Items**: Easy listing creation and search with categories
+- **Facebook-style Likes**: Like system for items and users (no reviews)
 - **Favorites**: Save items for later viewing
-- **Category Management**: Organized listings by books, electronics, furniture, etc.
-
-### Transaction Management
-
-- **Meet-up Coordination**: Schedule and coordinate item exchanges on campus
-
-### Admin Features
-
-- **Student Account Management**: Administrators can manage student accounts
-- **Listing Oversight**: Monitor and moderate item listings for policy compliance
-
-### Mobile-First Design
-
-- **Native Android Experience**: Built with Android Studio for optimal performance
-- **Material Design**: Google's Material Design principles for intuitive UI
+- **Profile Management**: Update profiles and view transaction history
+- **Dark Mode**: Beautiful dark theme support
+- **Material Design**: Modern Android UI with smooth animations
 
 ## 🛠️ Technology Stack
 
@@ -58,34 +38,20 @@ A comprehensive buy-sell marketplace Android application for students of Jatiya 
 
 ## 🔥 Firebase Database Structure
 
-The app uses Firebase Realtime Database with the following structure:
-
 ```
 jkkniu-marketplace
 ├── Ads/
 │   └── {adId}/
-│       ├── id: String
-│       ├── title: String
-│       ├── description: String
-│       ├── price: String
-│       ├── category: String
-│       ├── condition: String
-│       ├── brand: String
-│       ├── address: String
-│       ├── latitude: Double
-│       ├── longitude: Double
-│       ├── timestamp: Long
-│       ├── adOwnerName: String
-│       ├── vid: String (vendor/seller ID)
-│       ├── status: String
-│       ├── favoriteCount: Integer
+│       ├── id, title, description, price
+│       ├── category, condition, brand
+│       ├── address, latitude, longitude
+│       ├── timestamp, adOwnerName, vid
+│       ├── status, favoriteCount
 │       └── images/
 ├── Users/
 │   └── {userId}/
-│       ├── name: String
-│       ├── email: String
-│       ├── timestamp: Long
-│       └── profileImageUrl: String
+│       ├── name, email, timestamp
+│       └── profileImageUrl
 └── Favorites/
     └── {userId}/
         └── {adId}: Boolean
@@ -112,75 +78,31 @@ implementation 'com.github.bumptech.glide:glide:4.16.0'
 
 ## 📱 Screenshots
 
-### Login Screen
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
 
-![Login](docs/images/login.jpg)
-_Secure login interface with email authentication_
+<img src="docs/images/login.jpg" alt="Login" width="200"/>
+<img src="docs/images/continue%20with%20mail%20page.jpg" alt="Email Verification" width="200"/>
+<img src="docs/images/home.jpg" alt="Home Screen" width="200"/>
+<img src="docs/images/ads.jpg" alt="Ads Listings" width="200"/>
 
-### Continue with Email
+</div>
 
-![Continue with Email](docs/images/continue%20with%20mail%20page.jpg)
-_Email verification process for students_
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
 
-### Home Screen
+<img src="docs/images/upload%20ad.jpg" alt="Upload Ad" width="200"/>
+<img src="docs/images/ad%20details.jpg" alt="Ad Details" width="200"/>
+<img src="docs/images/my%20ads.jpg" alt="My Ads" width="200"/>
+<img src="docs/images/profile%20section.jpg" alt="Profile" width="200"/>
 
-![Home Screen](docs/images/home.jpg)
-_Clean and intuitive home screen with featured items and category navigation_
+</div>
 
-### Ads Listings
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
 
-![Ads](docs/images/ads.jpg)
-_Browse through various items posted by students_
+<img src="docs/images/favourite.jpg" alt="Favorites" width="200"/>
+<img src="docs/images/darkmorde1.jpg" alt="Dark Mode" width="200"/>
+<img src="docs/images/darkmorde2.jpg" alt="Dark Mode 2" width="200"/>
 
-### More Ads
-
-![More Ads](docs/images/more%20ads.jpg)
-_Extended view of available items with like counts_
-
-### Upload Ad
-
-![Upload Ad](docs/images/upload%20ad.jpg)
-_Easy-to-use interface for creating new item listings_
-
-### Upload Ad Details
-
-![Upload Ad 2](docs/images/upload%20ad%202.jpg)
-_Additional details form for posting items_
-
-### Ad Details
-
-![Ad Details](docs/images/ad%20details.jpg)
-_Detailed view of items with photos, descriptions, and seller information_
-
-### My Ads
-
-![My Ads](docs/images/my%20ads.jpg)
-_View and manage your posted items_
-
-### Profile Section
-
-![Profile](docs/images/profile%20section.jpg)
-_Student profile with personal information and settings_
-
-### Profile Edit
-
-![Profile Edit](docs/images/profile%20edit%20section.jpg)
-_Edit profile information and preferences_
-
-### Favorites
-
-![Favorites](docs/images/favourite.jpg)
-_View liked items with Facebook-style like system_
-
-### Ad Report
-
-![Ad Report](docs/images/ad%20report.jpg)
-_Report inappropriate content or ads_
-
-### Dark Mode
-
-![Dark Mode 1](docs/images/darkmorde1.jpg) ![Dark Mode 2](docs/images/darkmorde2.jpg)
-_Beautiful dark theme support throughout the app_
+</div>
 
 ## 🚀 Installation
 
@@ -191,7 +113,7 @@ _Beautiful dark theme support throughout the app_
 - Java 8 or higher
 - Firebase project setup
 
-### Android App Setup
+### Setup
 
 1. **Clone the repository**
 
